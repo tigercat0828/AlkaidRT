@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34031.279
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alkaid", "Core\Alkaid.csproj", "{81AC7849-7BFA-4DD7-8A1A-9A116AA5AC33}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alkaid.Core", "Alkaid.Core\Alkaid.Core.csproj", "{840DFA9F-FCBA-4910-8234-5587208D14B9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{81AC7849-7BFA-4DD7-8A1A-9A116AA5AC33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81AC7849-7BFA-4DD7-8A1A-9A116AA5AC33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81AC7849-7BFA-4DD7-8A1A-9A116AA5AC33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81AC7849-7BFA-4DD7-8A1A-9A116AA5AC33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{840DFA9F-FCBA-4910-8234-5587208D14B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{840DFA9F-FCBA-4910-8234-5587208D14B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{840DFA9F-FCBA-4910-8234-5587208D14B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{840DFA9F-FCBA-4910-8234-5587208D14B9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F2871B12-D7D8-4CF7-88E8-87A72DB12575}
+	EndGlobalSection
+EndGlobal
