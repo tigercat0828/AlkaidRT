@@ -71,7 +71,7 @@ public class Program {
     private static Color RayCast(Ray ray, Scene scene) {
         HitRecord record = new();
 
-        if (scene.HitAny(ray, 0, float.MaxValue,ref record)) {
+        if (scene.HitAny(ray,new Interval(0, float.MaxValue),ref record)) {
 
             return record.Material.Albedo;
         }

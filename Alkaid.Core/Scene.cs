@@ -1,4 +1,5 @@
 ﻿using Alkaid.Core.Primitive;
+using System.Reflection;
 
 namespace Alkaid.Core; 
 public class Scene {
@@ -25,14 +26,14 @@ public class Scene {
         }
         return false;
     }
-    public bool HitAny(Ray ray, float tMin, float tMax, ref HitRecord record) {
+    public bool HitAny(Ray ray, Interval interval, ref HitRecord record) {
         HitRecord tempRec = new();
         bool hitAny = false;
-        float currentCloset = tMax;
+        float currentCloset = interval.max;
 
         foreach (var item in Items) {
             
-            if (item.Hit(ray, tMin, currentCloset, ref tempRec)) {
+            if (item.Hit(ray, new Interval(interval.min, currentCloset), ref tempRec)) {
                 hitAny = true;
                 currentCloset = tempRec.t;
                 record = tempRec;

@@ -10,5 +10,5 @@ public interface IHitable {
     public bool Hit(Ray ray);
 
     // may lead to bug
-    public bool Hit(Ray ray, float tMin, float tMax, ref HitRecord record);
+    public bool Hit(Ray ray, Interval interval, ref HitRecord record);
 }

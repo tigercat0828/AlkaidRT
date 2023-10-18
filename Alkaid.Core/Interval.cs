@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,4 +14,6 @@ public struct Interval {
         this.max = max;
     }
     public Interval() : this(0,0){}
+    public bool Surrounds(float x) => x > min && x < max;
+    public bool Contains(float x) => x >= min && x <= max;
 }

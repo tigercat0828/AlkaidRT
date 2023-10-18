@@ -27,7 +27,7 @@ public class Sphere : IHitable {
         return discriminant >= 0;
     }
 
-    public bool Hit(Ray ray, float tMin, float tMax,ref HitRecord record) {
+    public bool Hit(Ray ray, Interval interval,ref HitRecord record) {
         Vector3 oc = ray.Origin - Center;
         float a = ray.Direction.LengthSquared();
         float halfB = Dot(oc, ray.Direction);
@@ -38,9 +38,9 @@ public class Sphere : IHitable {
         float sqrtd = Sqrt(discriminant);
         // Find the nearest root that lies in the acceptable range.
         float root = (-halfB - sqrtd) / a;
-        if (root <= tMin || tMax <= root) {
+        if (!interval.Surrounds(root)) {
             root = (-halfB + sqrtd) / a;
-            if (root <= tMin || tMax <= root)
+            if (!interval.Surrounds(root))
                 return false;
         }
 

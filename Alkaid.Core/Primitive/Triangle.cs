@@ -66,14 +66,13 @@ namespace Alkaid.Core.Primitive {
 
             return true;
         }
-        public bool Hit(Ray ray, float tMin , float tMax,ref HitRecord record) {
+        public bool Hit(Ray ray,Interval interval,ref HitRecord record) {
 
             float denom = Dot(Normal, ray.Direction);
             if (Abs(denom) < 1e-8f) return false; // parallel to the plane
             float t = (D - Dot(Normal, ray.Origin)) / denom;
             // occlusion here
-            if (!(t>=tMin && t<= tMax)) return false;
-
+            if (!interval.Contains(t)) return false;
 
             Vector3 intersect = ray.At(t);
             Vector3 PlanarHitVector = intersect - Corner;
