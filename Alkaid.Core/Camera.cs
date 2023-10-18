@@ -52,7 +52,7 @@ namespace Alkaid.Core {
             float focalLength = 1.0f;
             float viewportHeight = 2.0f;
             float viewportWidth = viewportHeight * (m_ImageWidth / (float)m_ImageHeight);
-    
+
 
             // Calculate the vectors across the horizontal and down the vertical viewport edges.
             Vector3 viewportU = new(viewportWidth, 0, 0);

@@ -1,8 +1,6 @@
-﻿
-using Alkaid.Core;
+﻿using Alkaid.Core;
 using Alkaid.Core.Primitive;
 using System.Numerics;
-using static System.Numerics.Vector3;
 
 Scene world = new();
 Material MatGreen = new(Color.Green);
