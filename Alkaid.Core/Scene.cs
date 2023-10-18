@@ -1,7 +1,6 @@
 ﻿using Alkaid.Core.Primitive;
-using System.Reflection;
 
-namespace Alkaid.Core; 
+namespace Alkaid.Core;
 public class Scene {
     public List<IHitable> Items = new();
     public List<Light> Lights = new();
@@ -32,7 +31,7 @@ public class Scene {
         float currentCloset = interval.max;
 
         foreach (var item in Items) {
-            
+
             if (item.Hit(ray, new Interval(interval.min, currentCloset), ref tempRec)) {
                 hitAny = true;
                 currentCloset = tempRec.t;

@@ -1,7 +1,7 @@
 ﻿using System.Numerics;
-using static System.Numerics.Vector3;
 using static System.MathF;
-namespace Alkaid.Core.Primitive; 
+using static System.Numerics.Vector3;
+namespace Alkaid.Core.Primitive;
 public class Sphere : IHitable {
 
     public Vector3 Center { get; set; }
@@ -27,14 +27,14 @@ public class Sphere : IHitable {
         return discriminant >= 0;
     }
 
-    public bool Hit(Ray ray, Interval interval,ref HitRecord record) {
+    public bool Hit(Ray ray, Interval interval, ref HitRecord record) {
         Vector3 oc = ray.Origin - Center;
         float a = ray.Direction.LengthSquared();
         float halfB = Dot(oc, ray.Direction);
         float c = oc.LengthSquared() - Radius * Radius;
         float discriminant = halfB * halfB - a * c;
         if (discriminant < 0) return false;
-        
+
         float sqrtd = Sqrt(discriminant);
         // Find the nearest root that lies in the acceptable range.
         float root = (-halfB - sqrtd) / a;
@@ -49,5 +49,8 @@ public class Sphere : IHitable {
         record.Normal = (record.Point - Center) / Radius;
         record.Material = Material;
         return true;
+    }
+    public override string ToString() {
+        return $"{Center}, {Radius}";
     }
 }

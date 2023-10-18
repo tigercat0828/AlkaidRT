@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-public static class FileIO {
+﻿public static class FileIO {
     public static void WritePPM(string filename, uint[] pixels, int width, int height) {
 
         using StreamWriter writer = new(filename);

@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Numerics.Vector3;
+﻿using System.Numerics;
 using static System.MathF;
+using static System.Numerics.Vector3;
 
 namespace Alkaid.Core.Primitive {
     public class Triangle : IHitable {
-        
+
         public Vector3 pos1;
         public Vector3 pos2;
         public Vector3 pos3;
@@ -66,7 +61,7 @@ namespace Alkaid.Core.Primitive {
 
             return true;
         }
-        public bool Hit(Ray ray,Interval interval,ref HitRecord record) {
+        public bool Hit(Ray ray, Interval interval, ref HitRecord record) {
 
             float denom = Dot(Normal, ray.Direction);
             if (Abs(denom) < 1e-8f) return false; // parallel to the plane
@@ -80,7 +75,7 @@ namespace Alkaid.Core.Primitive {
             float beta = Dot(W, Cross(U, PlanarHitVector));
 
             if (!IsInterior(alpha, beta)) return false;
-            
+
             record.t = t;
             record.Point = intersect;
             record.Normal = Normal;
@@ -88,7 +83,7 @@ namespace Alkaid.Core.Primitive {
             return true;
         }
         bool IsInterior(float a, float b) {
-  
+
             if ((a < 0) || (1 < a) || (b < 0) || (1 < b))
                 return false;
 
