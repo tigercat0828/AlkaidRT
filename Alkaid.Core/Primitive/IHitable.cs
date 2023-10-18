@@ -5,6 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Alkaid.Core.Primitive;
-public class IHitable {
+public interface IHitable {
+    public Material Material { get; set; }
+    public bool Hit(Ray ray);
 
+    // may lead to bug
+    public bool Hit(Ray ray, float tMin, float tMax, ref HitRecord record);
 }
