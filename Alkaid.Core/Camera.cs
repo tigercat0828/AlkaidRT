@@ -4,6 +4,8 @@ using static System.Numerics.Vector3;
 
 namespace Alkaid.Core {
     public class Camera {
+
+        const float DEG2RAD = MathF.PI / 180f;
         public float m_AspectRatio;
         public int m_ImageWidth;
         public int m_ImageHeight { get; private set; }
@@ -23,6 +25,12 @@ namespace Alkaid.Core {
             if (scene.HitAny(ray, new Interval(0, float.MaxValue), ref record)) {
                 return record.Material.Albedo;
             }
+
+
+            //return Color.Black;
+            return BackgroundSky(ray);
+        }
+        public Color BackgroundSky(Ray ray) {
             Vector3 uniDir = Normalize(ray.Direction);
             float a = 0.5f * (uniDir.Y + 1.0f);
             return (1.0f - a) * Color.White + a * new Color(0.5f, 0.7f, 1.0f);

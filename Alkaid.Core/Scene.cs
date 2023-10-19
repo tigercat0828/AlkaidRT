@@ -14,7 +14,9 @@ public class Scene {
         Items = items;
         Lights = lights;
     }
-
+    public void AddLight(Light light) {
+        Lights.Add(light);
+    }
     public void AddItem(IHitable item) {
         Items.Add(item);
     }
