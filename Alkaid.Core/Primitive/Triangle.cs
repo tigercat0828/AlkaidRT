@@ -2,7 +2,8 @@
 using static System.MathF;
 using static System.Numerics.Vector3;
 
-namespace Alkaid.Core.Primitive {
+namespace Alkaid.Core.Primitive
+{
     public class Triangle : IHitable {
 
         public Vector3 pos1;

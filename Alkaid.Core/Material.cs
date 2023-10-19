@@ -1,5 +1,9 @@
-﻿namespace Alkaid.Core.Primitive {
-    public class Material {
+﻿namespace Alkaid.Core
+{
+
+    
+    public class Material
+    {
         public Color Albedo { get; set; }
         public float Ka;
         public float Kd;
@@ -10,7 +14,8 @@
 
         public Material(Color albedo) : this(albedo, 1.0f, 1.0f, 1.0f, 1.0f, 0.5f) { }
 
-        public Material(Color albedo, float ka, float kd, float ks, float shineness, float reflexive) {
+        public Material(Color albedo, float ka, float kd, float ks, float shineness, float reflexive)
+        {
             Albedo = albedo;
             Ka = ka;
             Kd = kd;
@@ -19,7 +24,8 @@
             Reflect = reflexive;
         }
 
-        public override string ToString() {
+        public override string ToString()
+        {
             return $"Albedo :{Albedo}, Ka : {Ka}, Kd : {Kd}, Ks : {Ks}, Sn : {Shineness}, Re :{Reflect}";
         }
     }
