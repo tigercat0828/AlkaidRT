@@ -1,4 +1,5 @@
-﻿using Alkaid.Core.Primitives;
+﻿using Alkaid.Core.Data;
+using Alkaid.Core.Primitives;
 
 namespace Alkaid.Core;
 public class Scene {

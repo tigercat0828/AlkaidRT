@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using Alkaid.Core.Data;
+using System.Numerics;
 using static System.MathF;
 using static System.Numerics.Vector3;
 namespace Alkaid.Core.Primitives;

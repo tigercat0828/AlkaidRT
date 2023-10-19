@@ -1,4 +1,4 @@
-﻿namespace Alkaid.Core;
+﻿namespace Alkaid.Core.Data;
 public class Interval {
     public float min;
     public float max;

@@ -1,4 +1,6 @@
-﻿namespace Alkaid.Core;
+﻿using Alkaid.Core.Data;
+
+namespace Alkaid.Core;
 public class Material {
     public Color Albedo { get; set; }
     public float Ka;

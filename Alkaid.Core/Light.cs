@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using Alkaid.Core.Data;
+using System.Numerics;
 
 namespace Alkaid.Core {
     public class Light {
@@ -7,7 +8,7 @@ namespace Alkaid.Core {
             Intensity = intensity;
         }
         public Light(Vector3 position) : this(position, Color.White) { }
-
+        public Light() : this(Vector3.Zero, Color.White) { }
         public Vector3 Position { get; set; }
         public Color Intensity { get; set; }
         public override string ToString() {

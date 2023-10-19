@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace Alkaid.Core {
+namespace Alkaid.Core.Data {
     public struct CamOption {
         public float AspectRatio = 16f / 9f;
         public int ImageWidth = 400;

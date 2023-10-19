@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace Alkaid.Core;
+namespace Alkaid.Core.Data;
 
 public struct Color {
     public float R;
@@ -18,6 +18,12 @@ public struct Color {
         R = vec.X;
         G = vec.Y;
         B = vec.Z;
+    }
+    public Color Clamp() {
+        if (R > 1) R = 1;
+        if (G > 1) G = 1;
+        if (B > 1) B = 1;
+        return this;
     }
     public static Color operator +(Color lhs, Color rhs) {
         return new Color(lhs.R + rhs.R, lhs.G + rhs.G, lhs.B + rhs.B);
@@ -44,7 +50,7 @@ public struct Color {
     public static readonly Color Yellow = new(1, 1, 0);
     public static readonly Color Magenta = new(1, 0, 1);
     public static readonly Color Cyan = new(0, 1, 1);
-    public static readonly Color Gray = new(0.5f,0.5f,0.5f);
+    public static readonly Color Gray = new(0.5f, 0.5f, 0.5f);
     public static readonly Color None = new(0, 0, 0);
 
     public override string ToString() {

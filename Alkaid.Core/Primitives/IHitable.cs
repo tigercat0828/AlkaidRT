@@ -1,4 +1,6 @@
-﻿namespace Alkaid.Core.Primitives;
+﻿using Alkaid.Core.Data;
+
+namespace Alkaid.Core.Primitives;
 public interface IHitable {
     public int ID { get; }
     public Material Material { get; set; }
