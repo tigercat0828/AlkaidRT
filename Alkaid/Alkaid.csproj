@@ -11,4 +11,10 @@
     <ProjectReference Include="..\Alkaid.Core\Alkaid.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Assets\hw2_input.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

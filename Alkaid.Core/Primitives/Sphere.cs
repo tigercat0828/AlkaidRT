@@ -1,17 +1,20 @@
 ﻿using System.Numerics;
 using static System.MathF;
 using static System.Numerics.Vector3;
-namespace Alkaid.Core.Primitive;
+namespace Alkaid.Core.Primitives;
 public class Sphere : IHitable {
 
     public Vector3 Center { get; set; }
     public float Radius { get; set; }
     public Material Material { get; set; }
+    public int ID { get; }
+
     public Sphere() : this(Vector3.Zero, 1, new()) { }
 
     public Sphere(Vector3 center, float radius) : this(center, radius, new()) { }
 
     public Sphere(Vector3 center, float radius, Material material) {
+        ID = GetHashCode();
         Center = center;
         Radius = radius;
         Material = material;
@@ -48,6 +51,7 @@ public class Sphere : IHitable {
         record.Point = ray.At(record.t);
         record.Normal = (record.Point - Center) / Radius;
         record.Material = Material;
+        record.ID = ID;
         return true;
     }
     public override string ToString() {

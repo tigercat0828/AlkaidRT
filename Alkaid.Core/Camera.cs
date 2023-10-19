@@ -1,12 +1,14 @@
-﻿using Alkaid.Core.Primitive;
+﻿using Alkaid.Core.IO;
+using Alkaid.Core.Primitives;
 using System.Numerics;
-using static System.Numerics.Vector3;
+using System.Runtime.InteropServices;
 using static System.MathF;
+using static System.Numerics.Vector3;
 
-namespace Alkaid.Core; 
+namespace Alkaid.Core;
 public class Camera {
 
-    const float DEG2RAD = MathF.PI/ 180f;
+    const float DEG2RAD = MathF.PI / 180f;
 
     public float m_AspectRatio;
     public int m_ImageWidth;
@@ -14,28 +16,54 @@ public class Camera {
     public float m_Vfov { get; private set; }
     public Vector3 m_LookFrom;
     public Vector3 m_LookAt;
-    public Vector3 m_Center { get; private set;}
+    public Vector3 m_Center { get; private set; }
 
     private Vector3 m_pixel00;
     private Vector3 m_deltaU;
     private Vector3 m_deltaV;
     private Vector3 m_Vup;
     private Vector3 U, V, W;
+    public Camera() { }
     public Camera(CamOption option) {
+        SetOption(option);
+    }
+    public void SetOption(CamOption option) {
         m_AspectRatio = option.AspectRatio;
         m_ImageWidth = option.ImageWidth;
         m_Vfov = option.Fov;
-        m_LookFrom= option.LookFrom;
+        m_LookFrom = option.LookFrom;
         m_LookAt = option.LookAt;
         m_Vup = option.Vup;
     }
     public Color RayCast(Ray ray, Scene scene) {
         HitRecord record = new();
-
+        IHitable sph = scene.Items[0];
         if (scene.HitAny(ray, new Interval(0, float.MaxValue), ref record)) {
-            return record.Material.Albedo;
+            Light light = scene.Lights[0];
+            
+            Vector3 normal = Normalize(record.Normal);
+            Vector3 pixelPos = record.Point;
+            Vector3 lightDir = Normalize(pixelPos - light.Position);
+            Color pixel = new();
+            Ray pixelToLightRay = new(pixelPos  , -lightDir);
+            Material material = record.Material;
+
+            Color ambient = material.Ka * material.Albedo * light.Intensity;
+            
+            float diffStr = Max(Dot(-lightDir, normal), 0);
+            Color diffuse = diffStr * material.Kd * material.Albedo * light.Intensity;
+            int HitID = record.ID;
+            if(scene.InShadow(pixelToLightRay, HitID)) {
+                pixel = ambient;
+            }
+            else {
+                pixel = material.Albedo;
+                pixel = (Color)normal;
+                pixel = 0.5f * new Color(normal.X + 1, normal.Y + 1, normal.Z + 1);
+                pixel = ambient + diffuse;
+            }
+            return pixel;
         }
-        //return Color.Black;
         return BackgroundSky(ray);
     }
     public Color BackgroundSky(Ray ray) {
@@ -69,8 +97,10 @@ public class Camera {
         float focalLength = (m_LookFrom - m_LookAt).Length();
         float theta = m_Vfov * DEG2RAD;
         float h = theta * Tan(theta / 2);
-        float viewportHeight = 2.0f * h * focalLength;
-        float viewportWidth = viewportHeight * m_ImageWidth / m_ImageHeight;
+        //float viewportHeight = 2.0f * h * focalLength;
+        //float viewportWidth = viewportHeight * m_ImageWidth / m_ImageHeight;
+        float viewportWidth = 2.0f * h * focalLength;
+        float viewportHeight = viewportWidth * m_ImageHeight  / m_ImageWidth;
 
         W = Normalize(m_LookFrom - m_LookAt);
         U = Normalize(Cross(m_Vup, W));
@@ -85,7 +115,7 @@ public class Camera {
         m_deltaV = viewportV / m_ImageHeight;
 
         // Calculate the location of the upper left pixel.
-        Vector3 viewportUpperLeft = m_Center - (focalLength *W) - viewportU / 2 - viewportV / 2;
+        Vector3 viewportUpperLeft = m_Center - (focalLength * W) - viewportU / 2 - viewportV / 2;
         m_pixel00 = viewportUpperLeft + 0.5f * (m_deltaU + m_deltaV);
 
     }

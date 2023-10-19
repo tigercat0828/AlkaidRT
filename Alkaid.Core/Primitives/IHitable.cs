@@ -1,5 +1,6 @@
-﻿namespace Alkaid.Core.Primitive;
+﻿namespace Alkaid.Core.Primitives;
 public interface IHitable {
+    public int ID { get; }
     public Material Material { get; set; }
     public bool Hit(Ray ray);
 

@@ -1,4 +1,4 @@
-﻿using Alkaid.Core.Primitive;
+﻿using Alkaid.Core.Primitives;
 
 namespace Alkaid.Core;
 public class Scene {
@@ -24,6 +24,16 @@ public class Scene {
     public bool HitAny(Ray ray) {
         foreach (var item in Items) {
             if (item.Hit(ray)) return true;
+        }
+        return false;
+    }
+    public bool InShadow(Ray ray, int id) {
+        foreach (var item in Items) {
+            if (item.ID == id) continue;
+            HitRecord record = new HitRecord();
+            if (item.Hit(ray, new Interval(0, float.MaxValue), ref record)) {
+                return true;
+            }
         }
         return false;
     }

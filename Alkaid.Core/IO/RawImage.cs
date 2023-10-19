@@ -1,4 +1,4 @@
-﻿namespace Alkaid.Core;
+﻿namespace Alkaid.Core.IO;
 public class RawImage {
     const int B = 0, G = 8, R = 16, A = 24;
     public int Width { get; private set; }

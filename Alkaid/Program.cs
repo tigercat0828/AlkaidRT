@@ -1,21 +1,23 @@
 ﻿using Alkaid.Core;
-using Alkaid.Core.Primitive;
+using Alkaid.Core.Primitives;
 using System.Numerics;
 
 //(Camera MainCam, Scene world) = PickScene(DefaultScene.CameraDebug1);
 //(Camera MainCam, Scene world) = PickScene(DefaultScene.CameraDebug2);
-(Camera MainCam, Scene world) = PickScene(DefaultScene.OcclusionTest);
+//(Camera MainCam, Scene world) = PickScene(DefaultScene.OcclusionTest);
+
+(Camera MainCam, Scene world) = PickScene(DefaultScene.FileLoad);
 
 MainCam.Initialize();
 
 MainCam.Render(world);
 
 
-(Camera, Scene ) PickScene(DefaultScene sceneID) {
+(Camera, Scene) PickScene(DefaultScene sceneID) {
+    Camera camera = new();
+    CamOption option = new();
     Scene scene = new();
 
-    CamOption option = new();
-  
     Material MatGreen = new(Color.Green);
     Material MatBlue = new(Color.Blue);
     Material MatRed = new(Color.Red);
@@ -24,14 +26,18 @@ MainCam.Render(world);
     Material Mat2 = new(new(0.1f, 0.2f, 0.5f));
     Material Mat3 = new(new(0.5f, 0.5f, 0.5f));
     Material Mat4 = new(new(0.8f, 0.6f, 0.2f));
-    Vector3 A = new(0.5f, 0.5f,   0);
-    Vector3 B = new(0.5f, -0.5f,  0);
-    Vector3 C = new(-0.5f, 0.5f,  0);
+    Vector3 A = new(0.5f, 0.5f, 0);
+    Vector3 B = new(0.5f, -0.5f, 0);
+    Vector3 C = new(-0.5f, 0.5f, 0);
     Vector3 D = new(-0.5f, -0.5f, 0);
 
     switch (sceneID) {
-        case DefaultScene.OcclusionTest:
+        case DefaultScene.FileLoad:
+            (camera, scene) = FileIO.Parse("./Assets/hw2_input.txt");
             
+            break;
+        case DefaultScene.OcclusionTest:
+
             option = new() {
                 AspectRatio = 16 / 9f,
                 ImageWidth = 1600,
@@ -54,6 +60,7 @@ MainCam.Render(world);
                 Fov = 90f,
                 Vup = Vector3.UnitY
             };
+            camera.SetOption(option);
             float R = MathF.Cos(MathF.PI / 4f);
             scene.AddItem(new Sphere(new Vector3(-R, 0, -1), R, MatBlue));
             scene.AddItem(new Sphere(new Vector3(R, 0, -1), R, MatRed));
@@ -67,17 +74,43 @@ MainCam.Render(world);
                 Fov = 90f,
                 Vup = Vector3.UnitY
             };
-            scene.AddItem(new Sphere(new Vector3(0.0f, -100.5f, -1.0f)  , 100.0f, Mat1));
-            scene.AddItem(new Sphere(new Vector3(0.0f, 0.0f, -1.0f)     , 0.5f, Mat2));
-            scene.AddItem(new Sphere(new Vector3(-1.0f, 0.0f, -1.0f)    , 0.5f, Mat3));
-            scene.AddItem(new Sphere(new Vector3(1.0f, 0.0f, -1.0f)     , 0.5f, Mat4));
+            camera.SetOption(option);
+            scene.AddItem(new Sphere(new Vector3(0.0f, -100.5f, -1.0f), 100.0f, Mat1));
+            scene.AddItem(new Sphere(new Vector3(0.0f, 0.0f, -1.0f), 0.5f, Mat2));
+            scene.AddItem(new Sphere(new Vector3(-1.0f, 0.0f, -1.0f), 0.5f, Mat3));
+            scene.AddItem(new Sphere(new Vector3(1.0f, 0.0f, -1.0f), 0.5f, Mat4));
+            break;
+        case DefaultScene.RandomSphere:
+            option = new() {
+                AspectRatio = 16 / 9f,
+                ImageWidth = 1600,
+                LookFrom = new Vector3(10, 10, 10),
+                LookAt = new Vector3(0, 0, 0),
+                Fov = 50f,
+                Vup = Vector3.UnitY
+            };
+            camera.SetOption(option);
+            Random random = new();
+            for (int i = 0; i < 30; i++) {
+                float r = random.NextSingle();
+                float g = random.NextSingle();
+                float b = random.NextSingle();
+                float x = random.Next(-10, 10);
+                float y = random.Next(-10, 10);
+                float z = random.Next(-10, 10);
+                Color albedo = new(r, g, b);
+                Material material = new(albedo);
+                Vector3 position = new(x, y, z);
+                Sphere sphere = new(position, 0.5f, material);
+                scene.AddItem(sphere);
+            }
             break;
         default:
             break;
     }
-    Camera camera = new(option);
+
     return (camera, scene);
 }
 enum DefaultScene {
-    OcclusionTest, CameraDebug1, CameraDebug2
+    FileLoad, OcclusionTest, CameraDebug1, CameraDebug2, RandomSphere
 }

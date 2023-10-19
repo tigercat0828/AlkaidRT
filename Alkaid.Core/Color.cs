@@ -31,6 +31,11 @@ public struct Color {
     public static Color operator *(Color color, float scalar) {
         return new Color(scalar * color.R, scalar * color.G, scalar * color.B);
     }
+
+    public static explicit operator Color(Vector3 v) {
+        return new Color(v.X, v.Y, v.Z);
+    }
+
     public static readonly Color Black = new(0, 0, 0);
     public static readonly Color White = new(1, 1, 1);
     public static readonly Color Red = new(1, 0, 0);
@@ -39,6 +44,7 @@ public struct Color {
     public static readonly Color Yellow = new(1, 1, 0);
     public static readonly Color Magenta = new(1, 0, 1);
     public static readonly Color Cyan = new(0, 1, 1);
+    public static readonly Color Gray = new(0.5f,0.5f,0.5f);
     public static readonly Color None = new(0, 0, 0);
 
     public override string ToString() {
