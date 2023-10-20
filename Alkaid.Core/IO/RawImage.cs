@@ -1,4 +1,6 @@
 ﻿using Alkaid.Core.Data;
+using System.Drawing;
+using System.Runtime.InteropServices;
 
 namespace Alkaid.Core.IO;
 public class RawImage {
@@ -36,7 +38,7 @@ public class RawImage {
         Pixels[index] = pixel;
     }
 
-    public void SetPixel(int x, int y, Color color) {
+    public void SetPixel(int x, int y, Data.Color color) {
         uint pixelValue = (uint)color.R << R | (uint)color.G << G | (uint)color.B << B | 0xFF000000;
         SetPixel(x, y, pixelValue);
     }
@@ -46,4 +48,5 @@ public class RawImage {
     public uint GetPixel(int x, int y) {
         return Pixels[y * Width + x];
     }
+    
 }

@@ -83,7 +83,7 @@ public class Camera {
         float a = 0.5f * (uniDir.Y + 1.0f);
         return (1.0f - a) * Color.White + a * new Color(0.5f, 0.7f, 1.0f);
     }
-    public void Render(Scene scene) { // shot a photo !!
+    public RawImage Render(Scene scene) { // shot a photo !!
         Console.WriteLine($"Size = {m_ImageWidth} x {m_ImageHeight}");
         RawImage output = new(m_ImageWidth, m_ImageHeight);
         for (int j = 0; j < m_ImageHeight; j++) {
@@ -96,7 +96,7 @@ public class Camera {
                 output.SetPixel(i, j, pixelColor);
             }
         }
-        output.SaveFile("output.ppm");
+        return output;
     }
     public void Initialize() {
         // Image
