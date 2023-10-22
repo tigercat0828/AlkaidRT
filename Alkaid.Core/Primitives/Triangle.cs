@@ -16,10 +16,10 @@ namespace Alkaid.Core.Primitives {
         public Vector3 Normal;
         private Vector3 W; // to determin alpha, beta
         private float D;    // D = Ax+By+Cz
-        public Material Material { get; set; }
+        public PhongMat Material { get; set; }
 
 
-        public Triangle(Vector3 pos1, Vector3 pos2, Vector3 pos3, Material material) {
+        public Triangle(Vector3 pos1, Vector3 pos2, Vector3 pos3, PhongMat material) {
             this.pos1 = pos1;
             this.pos2 = pos2;
             this.pos3 = pos3;

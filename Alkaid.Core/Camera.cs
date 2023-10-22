@@ -1,7 +1,10 @@
 ﻿using Alkaid.Core.Data;
 using Alkaid.Core.IO;
 using Alkaid.Core.Primitives;
+using Alkaid.Core.Render;
 using System.Numerics;
+using System.Security.Authentication;
+using System.Text.Json.Serialization;
 using static System.MathF;
 using static System.Numerics.Vector3;
 
@@ -9,8 +12,8 @@ namespace Alkaid.Core;
 public class Camera {
 
     const float DEG2RAD = MathF.PI / 180f;
-
-    public float m_AspectRatio;
+    public RendererBase Renderer { get;private set; }
+    public float m_AspectRatio { get; private set; }
     public int m_ImageWidth;
     public int m_ImageHeight { get; private set; }
     public float m_Vfov { get; private set; }
@@ -35,64 +38,25 @@ public class Camera {
         m_LookAt = option.LookAt;
         m_Vup = option.Vup;
     }
-    public Color RayCast(Ray ray, Scene scene) {
-        HitRecord record = new();
-        IHitable sph = scene.Items[0];
-        if (scene.HitAny(ray, new Interval(0, float.MaxValue), ref record)) {
-            Light light = scene.Lights[0];
-
-            Vector3 normal = Normalize(record.Normal);
-            Vector3 pixelPos = record.Point;
-            Vector3 lightDir = Normalize(pixelPos - light.Position);
-            Vector3 viewDir = Normalize(ray.Direction);
-            Ray pixelToLightRay = new(pixelPos, -lightDir);
-            Vector3 lightReflected = Normalize(Reflect(lightDir, normal));
-            Material material = record.Material;
-            Color pixelColor = new();
-
-            Color ambient = material.Ka * material.Albedo * light.Intensity;
-
-            float diffStren = Max(Dot(-lightDir, normal), 0);
-            Color diffuse = diffStren * material.Kd * material.Albedo * light.Intensity;
-
-            float specStren = Pow(Max(Dot(lightReflected, -viewDir), 0), material.Shineness);
-            Color specular = specStren * material.Ks * material.Albedo * light.Intensity;
-
-            int HitID = record.ID;
-            if (scene.InShadow(pixelToLightRay, HitID)) {
-                pixelColor = ambient;
-            }
-            else {
-                pixelColor = ambient + diffuse + specular;
-            }
-            float r = material.Reflect;
-            if (r > 0) {
-                Vector3 viewReflectedDir = Reflect(viewDir, normal);
-                Ray viewDirReflectedRay = new(pixelPos + 0.0001f * viewReflectedDir, viewReflectedDir);
-                return (1 - r) * pixelColor + r * RayCast(viewDirReflectedRay, scene);
-            }
-            else {
-                return pixelColor.Clamp();
-            }
-
-        }
-        return Color.Black;
+    public void SetRenderer(RendererBase renderer) {
+        Renderer = renderer;
     }
-    public Color BackgroundSky(Ray ray) {
-        Vector3 uniDir = Normalize(ray.Direction);
-        float a = 0.5f * (uniDir.Y + 1.0f);
-        return (1.0f - a) * Color.White + a * new Color(0.5f, 0.7f, 1.0f);
-    }
+
+
     public RawImage Render(Scene scene) { // shot a photo !!
+        if(Renderer == null) {
+            Console.WriteLine("Renderer of camera is missing!");
+        }
         Console.WriteLine($"Size = {m_ImageWidth} x {m_ImageHeight}");
         RawImage output = new(m_ImageWidth, m_ImageHeight);
+        
         for (int j = 0; j < m_ImageHeight; j++) {
             for (int i = 0; i < m_ImageWidth; i++) {
                 //Console.WriteLine($"{i} {j}");
                 Vector3 pixelCenter = m_pixel00 + (i * m_deltaU) + (j * m_deltaV);
                 Vector3 rayDirection = pixelCenter - m_Center;
                 Ray ray = new(m_Center, rayDirection);
-                Color pixelColor = 255.99f * RayCast(ray, scene);
+                Color pixelColor = 255.99f * Renderer.RayColor(ray, scene,1).Clamp();
                 output.SetPixel(i, j, pixelColor);
             }
         }

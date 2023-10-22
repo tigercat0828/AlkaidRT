@@ -25,7 +25,7 @@ public static class FileIO {
 
         Scene scene = new();
         CamOption option = new();
-        Material currMat = new();
+        PhongMat currMat = new();
         // Parse the input lines
         string[] textLines = File.ReadAllLines(filename);
         foreach (string line in textLines) {
@@ -42,7 +42,7 @@ public static class FileIO {
                     float ks = float.Parse(tokens[6]);
                     float shininess = float.Parse(tokens[7]);
                     float reflect = float.Parse(tokens[8]);
-                    currMat = new Material(albedo, ka, kd, ks, shininess, reflect);
+                    currMat = new PhongMat(albedo, ka, kd, ks, shininess, reflect);
                     Console.WriteLine($"M : {currMat}");
                     break;
                 case "S":

@@ -7,14 +7,14 @@ public class Sphere : IHitable {
 
     public Vector3 Center { get; set; }
     public float Radius { get; set; }
-    public Material Material { get; set; }
+    public PhongMat Material { get; set; }
     public int ID { get; }
 
     public Sphere() : this(Vector3.Zero, 1, new()) { }
 
     public Sphere(Vector3 center, float radius) : this(center, radius, new()) { }
 
-    public Sphere(Vector3 center, float radius, Material material) {
+    public Sphere(Vector3 center, float radius, PhongMat material) {
         ID = GetHashCode();
         Center = center;
         Radius = radius;

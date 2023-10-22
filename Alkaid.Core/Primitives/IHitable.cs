@@ -3,7 +3,7 @@
 namespace Alkaid.Core.Primitives;
 public interface IHitable {
     public int ID { get; }
-    public Material Material { get; set; }
+    public PhongMat Material { get; set; }
     public bool Hit(Ray ray);
 
     // may lead to bug

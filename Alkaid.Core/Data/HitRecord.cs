@@ -5,7 +5,7 @@ namespace Alkaid.Core.Data {
         public float t;
         public Vector3 Point;
         public Vector3 Normal;
-        public Material Material = new();
+        public PhongMat Material = new();
         public int ID;
     }
 }

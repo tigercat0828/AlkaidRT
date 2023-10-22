@@ -28,16 +28,7 @@ public class Scene {
         }
         return false;
     }
-    public bool InShadow(Ray ray, int id) {
-        foreach (var item in Items) {
-            if (item.ID == id) continue;
-            HitRecord record = new HitRecord();
-            if (item.Hit(ray, new Interval(0, float.MaxValue), ref record)) {
-                return true;
-            }
-        }
-        return false;
-    }
+    
     public bool HitAny(Ray ray, Interval interval, ref HitRecord record) {
         HitRecord tempRec = new();
         bool hitAny = false;
