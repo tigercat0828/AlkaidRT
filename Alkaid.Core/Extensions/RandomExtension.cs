@@ -24,6 +24,13 @@ public static class RandomExtension {
             }
         }
     }
+    public static Vector3 UnitDisk(this Random random) {
+        while (true) {
+            Vector3 p = new Vector3(random.NextSingle(-1, 1), random.NextSingle(-1, 1), 0);
+            if (p.LengthSquared() < 1)
+                return p;
+        }
+    }
     public static Vector3 UnitHemisphere(this Random random, Vector3 normal) {
         Vector3 unit = random.UnitVector();
         if (Vector3.Dot(unit, normal) > 0.0)
@@ -31,4 +38,5 @@ public static class RandomExtension {
         else
             return -unit;
     }
+
 }

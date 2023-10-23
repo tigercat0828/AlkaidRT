@@ -35,9 +35,12 @@ public partial class MainWindow : Window {
             Fov = 90,
             LookFrom = new Vector3(-3, 1.5f, 3f),
             LookAt = new Vector3(-3, 1.5f, 0),
-            ImageWidth = 800
+            ImageWidth = 1600
         };
         MainCam = new Camera(option);
+        MainCam.defocus_angle = 3.0f;
+        MainCam.focus_dist = 8f;
+
         MainCam.Initialize();
         MainCam.SetRenderer(new PhongRenderer());
         output = MainCam.Render(world);
@@ -53,7 +56,7 @@ public partial class MainWindow : Window {
         PhongMat MatGreen = new(Color.Green);
         PhongMat MatYellow = new(Color.Yellow);
 
-        int planeLen = 10;
+        int planeLen = 50;
         Vector3 A = new(planeLen, 0, planeLen);
         Vector3 B = new(planeLen, 0, -planeLen);
         Vector3 C = new(-planeLen, 0, -planeLen);

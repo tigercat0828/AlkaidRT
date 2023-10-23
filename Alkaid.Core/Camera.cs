@@ -1,15 +1,14 @@
 ﻿using Alkaid.Core.Data;
+using Alkaid.Core.Extensions;
 using Alkaid.Core.IO;
-using Alkaid.Core.Primitives;
 using Alkaid.Core.Render;
 using System.Numerics;
-using System.Security.Authentication;
-using System.Text.Json.Serialization;
 using static System.MathF;
 using static System.Numerics.Vector3;
 
 namespace Alkaid.Core;
 public class Camera {
+    Random random = new Random();
 
     const float DEG2RAD = MathF.PI / 180f;
     public RendererBase Renderer { get;private set; }
@@ -26,6 +25,12 @@ public class Camera {
     private Vector3 m_deltaV;
     private Vector3 m_Vup;
     private Vector3 U, V, W;
+
+    public float defocus_angle = 0;  // Variation angle of rays through each pixel
+    public float focus_dist = 10;
+    Vector3 defocus_disk_u;  // Defocus disk horizontal radius
+    Vector3 defocus_disk_v;  // Defocus disk vertical radius
+
     public Camera() { }
     public Camera(CamOption option) {
         SetOption(option);
@@ -42,7 +47,6 @@ public class Camera {
         Renderer = renderer;
     }
 
-
     public RawImage Render(Scene scene) { // shot a photo !!
         if(Renderer == null) {
             Console.WriteLine("Renderer of camera is missing!");
@@ -55,12 +59,24 @@ public class Camera {
                 //Console.WriteLine($"{i} {j}");
                 Vector3 pixelCenter = m_pixel00 + (i * m_deltaU) + (j * m_deltaV);
                 Vector3 rayDirection = pixelCenter - m_Center;
-                Ray ray = new(m_Center, rayDirection);
-                Color pixelColor = 255.99f * Renderer.RayColor(ray, scene,1).Clamp();
+                // Ray ray = new(m_Center, rayDirection);
+                Ray ray = GetRay(i, j);
+                Color pixelColor = 255.99f * Renderer.RayColor(ray, scene, 1).Clamp();
                 output.SetPixel(i, j, pixelColor);
             }
         }
         return output;
+    }
+    public Ray GetRay(int i , int j ) {
+        // Get a randomly-sampled camera ray for the pixel at location i,j, originating from
+        // the camera defocus disk.
+
+        Vector3 pixel_center = m_pixel00 + (i * m_deltaU) + (j * m_deltaV);
+
+        Vector3 ray_origin = (defocus_angle <= 0) ? m_Center : defocus_disk_sample();
+        Vector3 ray_direction = pixel_center - ray_origin;
+
+        return new Ray(ray_origin, ray_direction);
     }
     public void Initialize() {
         // Image
@@ -72,10 +88,12 @@ public class Camera {
         // Camera
         float focalLength = (m_LookFrom - m_LookAt).Length();
         float theta = m_Vfov * DEG2RAD;
-        float h = theta * Tan(theta / 2);
+        //float h = theta * Tan(theta / 2);
+        float h = Tan(theta / 2);
         //float viewportHeight = 2.0f * h * focalLength;
         //float viewportWidth = viewportHeight * m_ImageWidth / m_ImageHeight;
-        float viewportWidth = 2.0f * h * focalLength;
+        //float viewportWidth = 2.0f * h * focalLength;
+        float viewportWidth = 2.0f * h * focus_dist;
         float viewportHeight = viewportWidth * m_ImageHeight / m_ImageWidth;
 
         W = Normalize(m_LookFrom - m_LookAt);
@@ -91,9 +109,18 @@ public class Camera {
         m_deltaV = viewportV / m_ImageHeight;
 
         // Calculate the location of the upper left pixel.
-        Vector3 viewportUpperLeft = m_Center - (focalLength * W) - viewportU / 2 - viewportV / 2;
+        Vector3 viewportUpperLeft = m_Center - (focus_dist * W) - viewportU / 2 - viewportV / 2;
         m_pixel00 = viewportUpperLeft + 0.5f * (m_deltaU + m_deltaV);
 
-    }
 
+        float defocus_radius = focus_dist * Tan(defocus_angle / 2 * DEG2RAD);
+        defocus_disk_u = U * defocus_radius;
+        defocus_disk_v = V * defocus_radius;
+
+    }
+    Vector3 defocus_disk_sample()  {
+        // Returns a random point in the camera defocus disk.
+        Vector3 p = random.UnitDisk();
+        return m_Center + (p.X * defocus_disk_u) + (p.Y * defocus_disk_v);
+    }
 }
