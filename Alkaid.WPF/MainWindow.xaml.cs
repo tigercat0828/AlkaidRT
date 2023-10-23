@@ -24,44 +24,52 @@ public partial class MainWindow : Window {
     Bitmap bitmap;
     public MainWindow() {
         InitializeComponent();
-        //(MainCam, world) = FileIO.Parse("./Assets/hw2_input.txt");
+        // (MainCam, world) = FileIO.Parse("./Assets/hw2_input.txt");
     }
 
     private void RenderBtn_Click(object sender, RoutedEventArgs e) {
+        //(MainCam, world) = FileIO.Parse("./Assets/hw3_input.txt");
         world = BuildScene();
         CamOption option = new() {
             AspectRatio = 16 / 9f,
             Fov = 90,
-            LookFrom = new Vector3(0, 8, .1f),
-            LookAt = new Vector3(0, 2, 0),
+            LookFrom = new Vector3(-3, 1.5f, 3f),
+            LookAt = new Vector3(-3, 1.5f, 0),
             ImageWidth = 800
         };
         MainCam = new Camera(option);
-        MainCam.SetRenderer(new PhongRenderer());
         MainCam.Initialize();
-        output =  MainCam.Render(world);
+        MainCam.SetRenderer(new PhongRenderer());
+        output = MainCam.Render(world);
 
         bitmap = Utility.RawImageToBitmap(output);
         Utility.UpdateImageBox(RenderImgBox, bitmap);
     }
     private Scene BuildScene() {
+
         Scene scene = new();
         PhongMat MatRed = new(Color.Red);
         PhongMat MatBlue = new(Color.Blue);
         PhongMat MatGreen = new(Color.Green);
-        Vector3 A = new(4, 0, 4);
-        Vector3 B = new(4, 0, -4);
-        Vector3 C = new(-4, 0, -4);
-        Vector3 D = new(-4, 0, 4);
+        PhongMat MatYellow = new(Color.Yellow);
+
+        int planeLen = 10;
+        Vector3 A = new(planeLen, 0, planeLen);
+        Vector3 B = new(planeLen, 0, -planeLen);
+        Vector3 C = new(-planeLen, 0, -planeLen);
+        Vector3 D = new(-planeLen, 0, planeLen);
         Triangle tri1 = new(A, B, C,MatGreen);
         Triangle tri2 = new(C, D, A, MatGreen);
-        Sphere sphere1 = new (new(2,2,0),1,MatRed);
-        Sphere sphere2 = new (new(-2, 2, 0), 1, MatBlue);
+        Sphere sphere1 = new( new(-1, 1.5f, -1), 1, MatRed);
+        Sphere sphere2 = new( new(-2, 1.5f, -3), 1, MatBlue);
+        Sphere sphere3 = new( new(-3, 1.5f, -5), 1, MatYellow);
         Light light = new Light(new(0,8,0),Color.White);
+
         scene.AddItem(tri1);
         scene.AddItem(tri2);
         scene.AddItem(sphere1);
         scene.AddItem(sphere2);
+        scene.AddItem(sphere3);
         scene.AddLight(light);
         return scene;
     }

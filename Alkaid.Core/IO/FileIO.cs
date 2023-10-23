@@ -88,6 +88,8 @@ public static class FileIO {
                     scene.AddLight(light);
                     Console.WriteLine($"L : {light.Position}");
                     break;
+                case "N":   // skip
+                    break;
                 default:
                     Console.WriteLine("Unknown input type: " + type);
                     break;
