@@ -38,7 +38,7 @@ public partial class MainWindow : Window {
             ImageWidth = 1600
         };
         MainCam = new Camera(option);
-        MainCam.defocus_angle = 3.0f;
+        MainCam.defocus_angle = 1.0f;
         MainCam.focus_dist = 8f;
 
         MainCam.Initialize();
@@ -63,9 +63,9 @@ public partial class MainWindow : Window {
         Vector3 D = new(-planeLen, 0, planeLen);
         Triangle tri1 = new(A, B, C,MatGreen);
         Triangle tri2 = new(C, D, A, MatGreen);
-        Sphere sphere1 = new( new(-1, 1.5f, -1), 1, MatRed);
-        Sphere sphere2 = new( new(-2, 1.5f, -3), 1, MatBlue);
-        Sphere sphere3 = new( new(-3, 1.5f, -5), 1, MatYellow);
+        Sphere sphere1 = new( new(-1, 1.0f, -1), 1, MatRed);
+        Sphere sphere2 = new( new(-2, 1.0f, -3), 1, MatBlue);
+        Sphere sphere3 = new( new(-3, 1.0f, -5), 1, MatYellow);
         Light light = new Light(new(0,8,0),Color.White);
 
         scene.AddItem(tri1);
