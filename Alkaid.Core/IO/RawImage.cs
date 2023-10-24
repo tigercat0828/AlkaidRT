@@ -1,8 +1,4 @@
-﻿using Alkaid.Core.Data;
-using System.Drawing;
-using System.Runtime.InteropServices;
-
-namespace Alkaid.Core.IO;
+﻿namespace Alkaid.Core.IO;
 public class RawImage {
     const int B = 0, G = 8, R = 16, A = 24;
     public int Width { get; private set; }
@@ -48,5 +44,5 @@ public class RawImage {
     public uint GetPixel(int x, int y) {
         return Pixels[y * Width + x];
     }
-    
+
 }

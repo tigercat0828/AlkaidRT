@@ -28,7 +28,7 @@ public class Scene {
         }
         return false;
     }
-    
+
     public bool HitAny(Ray ray, Interval interval, ref HitRecord record) {
         HitRecord tempRec = new();
         bool hitAny = false;

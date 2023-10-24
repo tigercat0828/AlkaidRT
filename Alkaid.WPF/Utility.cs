@@ -1,21 +1,16 @@
 ﻿using Alkaid.Core.IO;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using Image = System.Windows.Controls.Image;
 
-namespace Alkaid.WPF
-{
-    public static class Utility
-    {
-        public static Bitmap RawImageToBitmap(RawImage image)
-        {
+namespace Alkaid.WPF {
+    public static class Utility {
+        public static Bitmap RawImageToBitmap(RawImage image) {
 
             int Width = image.Width;
             int Height = image.Height;
@@ -28,8 +23,7 @@ namespace Alkaid.WPF
             int numPixels = Width * Height;
             byte[] RGBA = new byte[numPixels * 4];
 
-            Parallel.For(0, numPixels, i =>
-            {
+            Parallel.For(0, numPixels, i => {
                 int index = i * 4;
                 uint pixel = image.Pixels[i];
                 RGBA[index + 0] = (byte)(pixel >> 0 & 0xFF);  // Blue
@@ -43,10 +37,8 @@ namespace Alkaid.WPF
 
             return bmp;
         }
-        public static BitmapImage BitmapToImageSource(Bitmap bitmap)
-        {
-            using (MemoryStream memory = new MemoryStream())
-            {
+        public static BitmapImage BitmapToImageSource(Bitmap bitmap) {
+            using (MemoryStream memory = new MemoryStream()) {
                 bitmap.Save(memory, ImageFormat.Bmp);
                 memory.Position = 0;
                 BitmapImage bitmapimage = new BitmapImage();

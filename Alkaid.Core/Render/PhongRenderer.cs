@@ -1,18 +1,12 @@
 ﻿using Alkaid.Core.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Numerics.Vector3;
 using static System.MathF;
-namespace Alkaid.Core.Render
-{
+using static System.Numerics.Vector3;
+namespace Alkaid.Core.Render {
     public class PhongRenderer : RendererBase {
 
         public override Color RayColor(Ray ray, Scene scene, int depth) {
-            if(depth == 0) return Color.None;
+            if (depth == 0) return Color.None;
             depth--;
             HitRecord record = new();
             if (scene.HitAny(ray, new Interval(0, float.MaxValue), ref record)) {
@@ -22,41 +16,41 @@ namespace Alkaid.Core.Render
                 Light light = scene.Lights[0];
                 Vector3 viewDir = Normalize(ray.Direction);
                 PhongMat material = record.Material;
-                
+
                 // multi light to fix
                 //foreach(Light light in scene.Lights) {
 
-                    Color pixelColor = new();
-                    Vector3 lightDir = Normalize(pixelPos - light.Position);
-                    Ray pixelToLightRay = new(pixelPos, -lightDir);
-                    Vector3 lightReflected = Normalize(Reflect(lightDir, normal));
-                    // ambient
-                    Color ambient = material.Ka * material.Albedo * light.Intensity;
+                Color pixelColor = new();
+                Vector3 lightDir = Normalize(pixelPos - light.Position);
+                Ray pixelToLightRay = new(pixelPos, -lightDir);
+                Vector3 lightReflected = Normalize(Reflect(lightDir, normal));
+                // ambient
+                Color ambient = material.Ka * material.Albedo * light.Intensity;
 
-                    // diffuse
-                    float diffStren = Max(Dot(-lightDir, normal), 0);
-                    Color diffuse = diffStren * material.Kd * material.Albedo * light.Intensity;
+                // diffuse
+                float diffStren = Max(Dot(-lightDir, normal), 0);
+                Color diffuse = diffStren * material.Kd * material.Albedo * light.Intensity;
 
-                    // specular
-                    float specStren = Pow(Max(Dot(lightReflected, -viewDir), 0), material.Shineness);
-                    Color specular = specStren * material.Ks * material.Albedo * light.Intensity;
+                // specular
+                float specStren = Pow(Max(Dot(lightReflected, -viewDir), 0), material.Shineness);
+                Color specular = specStren * material.Ks * material.Albedo * light.Intensity;
 
-                    int HitID = record.ID;
-                    if (IsInShadow(pixelToLightRay, scene, HitID)) {
-                        pixelColor = ambient;
-                    }
-                    else {
-                        pixelColor = ambient + diffuse + specular;
-                    }
-                    float r = material.Reflect;
-                    if (r > 0) {
-                        Vector3 viewReflectedDir = Reflect(viewDir, normal);
-                        Ray viewDirReflectedRay = new(pixelPos + 0.000001f * viewReflectedDir, viewReflectedDir);
-                        return ((1 - r) * pixelColor).Clamp() + (r * RayColor(viewDirReflectedRay, scene, depth)).Clamp();
-                    }
-                    else {
-                        return pixelColor.Clamp();
-                    }
+                int HitID = record.ID;
+                if (IsInShadow(pixelToLightRay, scene, HitID)) {
+                    pixelColor = ambient;
+                }
+                else {
+                    pixelColor = ambient + diffuse + specular;
+                }
+                float r = material.Reflect;
+                if (r > 0) {
+                    Vector3 viewReflectedDir = Reflect(viewDir, normal);
+                    Ray viewDirReflectedRay = new(pixelPos + 0.000001f * viewReflectedDir, viewReflectedDir);
+                    return ((1 - r) * pixelColor).Clamp() + (r * RayColor(viewDirReflectedRay, scene, depth)).Clamp();
+                }
+                else {
+                    return pixelColor.Clamp();
+                }
                 //}
 
             }

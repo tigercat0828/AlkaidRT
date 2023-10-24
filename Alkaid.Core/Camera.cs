@@ -11,7 +11,7 @@ public class Camera {
     Random random = new Random();
 
     const float DEG2RAD = MathF.PI / 180f;
-    public RendererBase Renderer { get;private set; }
+    public RendererBase Renderer { get; private set; }
     public float m_AspectRatio { get; private set; }
     public int m_ImageWidth;
     public int m_ImageHeight { get; private set; }
@@ -48,12 +48,12 @@ public class Camera {
     }
 
     public RawImage Render(Scene scene) { // shot a photo !!
-        if(Renderer == null) {
+        if (Renderer == null) {
             Console.WriteLine("Renderer of camera is missing!");
         }
         Console.WriteLine($"Size = {m_ImageWidth} x {m_ImageHeight}");
         RawImage output = new(m_ImageWidth, m_ImageHeight);
-        
+
         for (int j = 0; j < m_ImageHeight; j++) {
             for (int i = 0; i < m_ImageWidth; i++) {
                 //Console.WriteLine($"{i} {j}");
@@ -67,7 +67,7 @@ public class Camera {
         }
         return output;
     }
-    public Ray GetRay(int i , int j ) {
+    public Ray GetRay(int i, int j) {
         // Get a randomly-sampled camera ray for the pixel at location i,j, originating from
         // the camera defocus disk.
 
@@ -118,7 +118,7 @@ public class Camera {
         defocus_disk_v = V * defocus_radius;
 
     }
-    Vector3 defocus_disk_sample()  {
+    Vector3 defocus_disk_sample() {
         // Returns a random point in the camera defocus disk.
         Vector3 p = random.UnitDisk();
         return m_Center + (p.X * defocus_disk_u) + (p.Y * defocus_disk_v);
