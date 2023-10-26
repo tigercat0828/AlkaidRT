@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Alkaid.Core\Alkaid.Core.csproj" />
+    <ProjectReference Include="..\Alkaid.RayTracing.Core\Alkaid.RayTracing.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
