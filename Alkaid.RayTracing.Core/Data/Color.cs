@@ -20,9 +20,9 @@ public struct Color {
         B = vec.Z;
     }
     public Color Clamp() {
-        if (R > 1) R = 1;
-        if (G > 1) G = 1;
-        if (B > 1) B = 1;
+        if (R > 255) R = 255;
+        if (G > 255) G = 255;
+        if (B > 255) B = 255;
         return this;
     }
     public static Color operator +(Color lhs, Color rhs) {
@@ -37,6 +37,10 @@ public struct Color {
     public static Color operator *(Color color, float scalar) {
         return new Color(scalar * color.R, scalar * color.G, scalar * color.B);
     }
+    public static Color operator /(Color color, float scalar) {
+        return new Color(color.R/scalar, color.G/scalar, color.B/scalar);
+    }
+
 
     public static explicit operator Color(Vector3 v) {
         return new Color(v.X, v.Y, v.Z);

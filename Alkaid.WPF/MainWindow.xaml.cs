@@ -3,6 +3,7 @@ using Alkaid.Core.Data;
 using Alkaid.Core.IO;
 using Alkaid.Core.Primitives;
 using Alkaid.Core.Render;
+using Alkaid.RayTracing.Core;
 using System.Drawing;
 using System.Numerics;
 using System.Windows;
@@ -25,8 +26,8 @@ public partial class MainWindow : Window {
     }
 
     private void RenderBtn_Click(object sender, RoutedEventArgs e) {
-        (MainCam, world) = FileIO.Parse("./Assets/hw3_input.txt");
-        //world = BuildScene();
+
+        //Scene world = BuildScene();
         //CamOption option = new() {
         //    AspectRatio = 16 / 9f,
         //    Fov = 90,
@@ -36,15 +37,31 @@ public partial class MainWindow : Window {
         //    LookAt = new Vector3(-3, 0f, -1.5f),
         //    ImageWidth = 1600
         //};
-        //MainCam = new Camera(option);
-        MainCam.m_DefocusAngle = 1.0f;
-        MainCam.m_FocusDistance = 20f; // 8 / 6 / 4 /  20 /40 /60
+        //Camera MainCam = new (option);
+        //MainCam.FocusDistance = 6f; // 8 / 6 / 4  
+        //MainCam.DefocusAngle = 1.0f;
+        //MainCam.SetRenderer(new PhongRenderer());
+        //MainCam.Initialize();
+        //output = MainCam.Render(world);
 
-
-        MainCam.Initialize();
+        (MainCam, world) = FileIO.Parse("./Assets/hw3_input.txt");
+        MainCam.DefocusAngle = 1.0f;
         MainCam.SetRenderer(new PhongRenderer());
+        
+        MainCam.FocusDistance = 20f; // 8 / 6 / 4 /  20 /40 /60
+        MainCam.Initialize();
         output = MainCam.Render(world);
-
+        output.SaveFile("focus20cm.ppm");
+        
+        //MainCam.FocusDistance = 40f; // 8 / 6 / 4 /  20 /40 /60
+        //MainCam.Initialize();
+        //output = MainCam.Render(world);
+        output.SaveFile("focus40cm.ppm");
+        
+        //MainCam.FocusDistance = 60f; // 8 / 6 / 4 /  20 /40 /60
+        //MainCam.Initialize();
+        //output = MainCam.Render(world);
+        output.SaveFile("focus60cm.ppm");
         bitmap = Utility.RawImageToBitmap(output);
         Utility.UpdateImageBox(RenderImgBox, bitmap);
     }
