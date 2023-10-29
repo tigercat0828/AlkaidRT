@@ -18,7 +18,6 @@ public partial class MainWindow : Window {
     Camera MainCam;
     Scene world;
 
-
     Bitmap bitmap;
     public MainWindow() {
         InitializeComponent();
@@ -26,20 +25,21 @@ public partial class MainWindow : Window {
     }
 
     private void RenderBtn_Click(object sender, RoutedEventArgs e) {
-        //(MainCam, world) = FileIO.Parse("./Assets/hw3_input.txt");
-        world = BuildScene();
-        CamOption option = new() {
-            AspectRatio = 16 / 9f,
-            Fov = 90,
-            //LookFrom = new Vector3(-3, 1.5f, 3f),
-            //LookAt = new Vector3(-3, 1.5f, 0),
-            LookFrom = new Vector3(-3, 8f, 1.5f),
-            LookAt = new Vector3(-3, 0f, -1.5f),
-            ImageWidth = 1600
-        };
-        MainCam = new Camera(option);
-        MainCam.defocus_angle = 2.0f;
-        MainCam.focus_dist = 8f; // 8 / 6 / 4
+        (MainCam, world) = FileIO.Parse("./Assets/hw3_input.txt");
+        //world = BuildScene();
+        //CamOption option = new() {
+        //    AspectRatio = 16 / 9f,
+        //    Fov = 90,
+        //    //LookFrom = new Vector3(-3, 1.5f, 3f),
+        //    //LookAt = new Vector3(-3, 1.5f, 0),
+        //    LookFrom = new Vector3(-3, 8f, 1.5f),
+        //    LookAt = new Vector3(-3, 0f, -1.5f),
+        //    ImageWidth = 1600
+        //};
+        //MainCam = new Camera(option);
+        MainCam.m_DefocusAngle = 1.0f;
+        MainCam.m_FocusDistance = 20f; // 8 / 6 / 4 /  20 /40 /60
+
 
         MainCam.Initialize();
         MainCam.SetRenderer(new PhongRenderer());
