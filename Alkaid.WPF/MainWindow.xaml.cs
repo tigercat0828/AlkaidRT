@@ -51,17 +51,19 @@ public partial class MainWindow : Window {
         MainCam.FocusDistance = 20f; // 8 / 6 / 4 /  20 /40 /60
         MainCam.Initialize();
         output = MainCam.Render(world);
-        output.SaveFile("focus20cm.ppm");
+        //output.SaveFile("focus20cm.ppm");
         
         //MainCam.FocusDistance = 40f; // 8 / 6 / 4 /  20 /40 /60
         //MainCam.Initialize();
         //output = MainCam.Render(world);
-        output.SaveFile("focus40cm.ppm");
+        //output.SaveFile("focus40cm.ppm");
         
         //MainCam.FocusDistance = 60f; // 8 / 6 / 4 /  20 /40 /60
         //MainCam.Initialize();
         //output = MainCam.Render(world);
-        output.SaveFile("focus60cm.ppm");
+        //output.SaveFile("focus60cm.ppm");
+
+
         bitmap = Utility.RawImageToBitmap(output);
         Utility.UpdateImageBox(RenderImgBox, bitmap);
     }
