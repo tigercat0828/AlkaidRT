@@ -1,6 +1,6 @@
 ﻿using Alkaid.Core;
 using Alkaid.Core.IO;
-using Alkaid.Core.Render;
+using Alkaid.Core.Renderer;
 using System.Diagnostics;
 
 RawImage output;
