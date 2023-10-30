@@ -68,6 +68,28 @@ public class Camera {
         }
         return output;
     }
+    public RawImage RenderMT(Scene scene) { // shot a photo !!
+        if (Renderer == null) {
+            Console.WriteLine("Renderer of camera is missing!");
+        }
+        RawImage output = new(ImageWidth, ImageHeight);
+        RendererBase renderer = Renderer;
+        Parallel.For(0, ImageHeight, j => {
+            for (int i = 0; i < ImageWidth; i++) {
+
+                Color color = Color.None;
+                for (int t = 0; t < SampleNum; t++) {
+                    Ray ray = GetRay(i, j);
+                    color += renderer.RayColor(ray, scene, 1);
+                }
+                color /= SampleNum;
+                color *= 255.99f;
+                output.SetPixel(i, j, color.Clamp());
+            }
+        });
+        return output;
+    }
+
     Vector3 GetSampleOffset() {
         float px = -0.5f + random.NextSingle();
         float py = -0.5f + random.NextSingle();
