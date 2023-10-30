@@ -19,7 +19,7 @@ public class Camera {
     public int SampleNum = 50;
     public int ImageWidth;
     public int ImageHeight { get; private set; }
-    public float Vfov { get; private set; }
+    public float Hfov { get; private set; }
     public Vector3 m_LookFrom;
     public Vector3 m_LookAt;
     public Vector3 m_Center { get; private set; }
@@ -43,7 +43,7 @@ public class Camera {
     public void SetOption(CamOption option) {
         AspectRatio = option.AspectRatio;
         ImageWidth = option.ImageWidth;
-        Vfov = option.Fov;
+        Hfov = option.Fov;
         m_LookFrom = option.LookFrom;
         m_LookAt = option.LookAt;
         m_Vup = option.Vup;
@@ -100,9 +100,9 @@ public class Camera {
         m_Center = m_LookFrom;
         // Camera
         //float focalLength = (m_LookFrom - m_LookAt).Length();
-        float theta = Vfov * DEG2RAD;
-        float h = Tan(theta / 2);
-        float viewportWidth = 2.0f * h * FocusDistance;
+        float theta = Hfov * DEG2RAD;
+        float w = Tan(theta / 2);
+        float viewportWidth = 2.0f * w * FocusDistance;
         float viewportHeight = viewportWidth * ImageHeight / ImageWidth;
 
         W = Normalize(m_LookFrom - m_LookAt);
