@@ -44,26 +44,22 @@ public partial class MainWindow : Window {
             LookAt = new Vector3(0, 0, -1f),
             DefocusAngle = 0.0f,
             FocusDistance = 20f,
-            SampleNum = 10,
-            ImageWidth = 800
+            SampleNum = 50,
+            ImageWidth = 1600
         };
         MainCam = new Camera(option);
 
-        
         MainCam.SetRenderer(new RtiowkRenderer());
         MainCam.MaxDepth = 50;
-        //MainCam.SetRenderer(new PhongRenderer());
-        //MainCam.MaxDepth = 1;
-        
-        
+
         MainCam.Initialize();
         output = MainCam.Render(world);
     }
     private Scene BuildScene() {
         // 
         Scene scene = new();
-        PhongMat MatRed = new(Color.Red);
-        PhongMat MatBlue = new(Color.Blue);
+        LambertianMat MatRed = new(Color.Red);
+        LambertianMat MatBlue = new(Color.Blue);
       
         Sphere sphere1 = new(center: new(0, 0, -1), 0.5f, MatRed);
         Sphere sphere2 = new(center: new(0, -100.5f, -1), 100.0f, MatBlue);

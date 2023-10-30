@@ -27,4 +27,10 @@ public class PhongMat : MaterialBase
     {
         return $"Albedo :{Albedo}, Ka : {Ka}, Kd : {Kd}, Ks : {Ks}, Sn : {Shineness}, Re :{Reflect}";
     }
+
+    public override bool Scatter(Ray ray, HitRecord record, ref Color attenuation, ref Ray scattered) {
+        // should never go here, PhongRenderer dont use this method
+        // the method just to pass the compiler
+        throw new NotImplementedException();
+    }
 }

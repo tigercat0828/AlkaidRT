@@ -10,7 +10,7 @@ namespace Alkaid.Core.Material {
         public LambertianMat(Color albedo) {
             this.albedo = albedo;
         }
-        public bool Scatter(Ray ray, ref HitRecord record, ref Color attenuation, ref Ray scattered) {
+        public override bool Scatter(Ray ray, HitRecord record, ref Color attenuation, ref Ray scattered) {
             Vector3 scatterDirection = record.Normal + random.UnitVector();
             if (scatterDirection.NearZero())
                 scatterDirection = record.Normal;
