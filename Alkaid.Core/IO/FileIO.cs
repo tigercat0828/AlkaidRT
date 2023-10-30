@@ -1,7 +1,6 @@
 ﻿using Alkaid.Core;
 using Alkaid.Core.Data;
 using Alkaid.Core.Primitives;
-using Alkaid.RayTracing.Core;
 using System.Numerics;
 
 public static class FileIO {

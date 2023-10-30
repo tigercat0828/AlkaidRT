@@ -3,7 +3,6 @@ using Alkaid.Core.Data;
 using Alkaid.Core.IO;
 using Alkaid.Core.Primitives;
 using Alkaid.Core.Render;
-using Alkaid.RayTracing.Core;
 using System.Drawing;
 using System.Numerics;
 using System.Windows;

@@ -1,5 +1,4 @@
-﻿using Alkaid.Core;
-using Alkaid.Core.Data;
+﻿using Alkaid.Core.Data;
 using Alkaid.Core.Extensions;
 using Alkaid.Core.IO;
 using Alkaid.Core.Render;
@@ -7,7 +6,7 @@ using System.Numerics;
 using static System.MathF;
 using static System.Numerics.Vector3;
 
-namespace Alkaid.RayTracing.Core;
+namespace Alkaid.Core;
 public class Camera {
     Random random = new();
 
@@ -22,18 +21,17 @@ public class Camera {
     public Vector3 m_LookAt;
     public Vector3 m_Center { get; private set; }
 
-
     private Vector3 m_pixel00;
     private Vector3 m_deltaU;
     private Vector3 m_deltaV;
     private Vector3 m_Vup;
     private Vector3 U, V, W;
-
+    
+    // detemine the aperture size
     public float DefocusAngle = 0;
     public float FocusDistance = 10;
-    Vector3 defocusDiskU;  // Defocus disk horizontal radius
-    Vector3 defocusDiskV;  // Defocus disk vertical radius
-
+    Vector3 defocusDiskU; 
+    Vector3 defocusDiskV; 
     public Camera() { }
     public Camera(CamOption option) {
         SetOption(option);
@@ -53,7 +51,6 @@ public class Camera {
         if (Renderer == null) {
             Console.WriteLine("Renderer of camera is missing!");
         }
-        Console.WriteLine($"Size = {ImageWidth} x {ImageHeight}");
         RawImage output = new(ImageWidth, ImageHeight);
 
         for (int j = 0; j < ImageHeight; j++) {

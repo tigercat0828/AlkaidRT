@@ -17,10 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Alkaid.RayTracing.Core\Alkaid.RayTracing.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="Assets\hw2_input.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

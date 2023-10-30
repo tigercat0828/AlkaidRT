@@ -45,7 +45,9 @@ public struct Color {
     public static explicit operator Color(Vector3 v) {
         return new Color(v.X, v.Y, v.Z);
     }
-
+    public override string ToString() {
+        return $"<{R,2}, {G,2}, {B,2}>";
+    }
     public static readonly Color Black = new(0, 0, 0);
     public static readonly Color White = new(1, 1, 1);
     public static readonly Color Red = new(1, 0, 0);
@@ -56,8 +58,4 @@ public struct Color {
     public static readonly Color Cyan = new(0, 1, 1);
     public static readonly Color Gray = new(0.5f, 0.5f, 0.5f);
     public static readonly Color None = new(0, 0, 0);
-
-    public override string ToString() {
-        return $"<{R,2}, {G,2}, {B,2}>";
-    }
 }
