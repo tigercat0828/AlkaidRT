@@ -5,6 +5,7 @@ using Alkaid.Core.Primitives;
 using Alkaid.Core.Render;
 using System.Drawing;
 using System.Numerics;
+using System.Threading.Tasks;
 using System.Windows;
 using Color = Alkaid.Core.Data.Color;
 
@@ -23,36 +24,22 @@ public partial class MainWindow : Window {
         InitializeComponent();
         (MainCam, world) = FileIO.Parse("./Assets/hw2_input.txt");
     }
-
-    private void RenderBtn_Click(object sender, RoutedEventArgs e) {
-
-        //Scene world = BuildScene();
-        //CamOption option = new() {
-        //    AspectRatio = 16 / 9f,
-        //    Fov = 90,
-        //    //LookFrom = new Vector3(-3, 1.5f, 3f),
-        //    //LookAt = new Vector3(-3, 1.5f, 0),
-        //    LookFrom = new Vector3(-3, 8f, 1.5f),
-        //    LookAt = new Vector3(-3, 0f, -1.5f),
-        //    ImageWidth = 1600
-        //};
-        //Camera MainCam = new (option);
-        //MainCam.FocusDistance = 6f; // 8 / 6 / 4  
-        //MainCam.DefocusAngle = 1.0f;
-        //MainCam.SetRenderer(new PhongRenderer());
-        //MainCam.Initialize();
-        //output = MainCam.Render(world);
-
+    private async void RenderBtn_Click(object sender, RoutedEventArgs e) {
+        c_RenderBtn.IsEnabled = false;
+        await Task.Run(() => RenderScene());
+        //RenderScene();
+        bitmap = Utility.RawImageToBitmap(output);
+        Utility.UpdateImageBox(c_RenderImgBox, bitmap);
+        c_RenderBtn.IsEnabled = true;
+    }
+    private void RenderScene() {
         (MainCam, world) = FileIO.Parse("./Assets/hw3_input.txt");
         MainCam.DefocusAngle = 1.0f;
         MainCam.SetRenderer(new PhongRenderer());
-        
-        MainCam.FocusDistance = 20f; // 8 / 6 / 4 /  20 /40 /60
-        MainCam.Initialize();
-        output = MainCam.Render(world);
 
-        bitmap = Utility.RawImageToBitmap(output);
-        Utility.UpdateImageBox(RenderImgBox, bitmap);
+        MainCam.FocusDistance = 20f; 
+        MainCam.Initialize();
+        output = MainCam.RenderMT(world);
     }
     private Scene BuildScene() {
 
@@ -83,3 +70,19 @@ public partial class MainWindow : Window {
         return scene;
     }
 }
+//Scene world = BuildScene();
+//CamOption option = new() {
+//    AspectRatio = 16 / 9f,
+//    Fov = 90,
+//    //LookFrom = new Vector3(-3, 1.5f, 3f),
+//    //LookAt = new Vector3(-3, 1.5f, 0),
+//    LookFrom = new Vector3(-3, 8f, 1.5f),
+//    LookAt = new Vector3(-3, 0f, -1.5f),
+//    ImageWidth = 1600
+//};
+//Camera MainCam = new (option);
+//MainCam.FocusDistance = 6f; // 8 / 6 / 4  
+//MainCam.DefocusAngle = 1.0f;
+//MainCam.SetRenderer(new PhongRenderer());
+//MainCam.Initialize();
+//output = MainCam.Render(world);

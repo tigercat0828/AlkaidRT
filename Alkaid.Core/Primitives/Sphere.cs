@@ -50,7 +50,9 @@ public class Sphere : IHitable {
 
         record.t = root;
         record.Point = ray.At(record.t);
-        record.Normal = (record.Point - Center) / Radius;
+        Vector3 outwardNormal = (record.Point - Center) / Radius;
+        record.SetFaceNormal(ray, outwardNormal);
+
         record.Material = Material;
         record.ID = ID;
         return true;
