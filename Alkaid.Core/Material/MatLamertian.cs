@@ -3,11 +3,11 @@ using Alkaid.Core.Extensions;
 using System.Numerics;
 
 namespace Alkaid.Core.Material {
-    public class LambertianMat : MaterialBase {
+    public class MatLambertian : MaterialBase {
         Random random = new ();
         Color albedo;
 
-        public LambertianMat(Color albedo) {
+        public MatLambertian(Color albedo) {
             this.albedo = albedo;
         }
         public override bool Scatter(Ray ray, HitRecord record, ref Color attenuation, ref Ray scattered) {

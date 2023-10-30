@@ -51,20 +51,23 @@ public partial class MainWindow : Window {
 
         MainCam.SetRenderer(new RtiowkRenderer());
         MainCam.MaxDepth = 50;
-
+        
         MainCam.Initialize();
         output = MainCam.Render(world);
     }
     private Scene BuildScene() {
         // 
         Scene scene = new();
-        LambertianMat MatRed = new(Color.Red);
-        LambertianMat MatBlue = new(Color.Blue);
-      
+        MatLambertian MatRed = new(Color.Red);
+        MatLambertian MatBlue = new(Color.Blue);
+        MatDielectric MatDielect1 = new(1.5f);
+        // MatDielectric MatDielect2 = new(1.5f);
         Sphere sphere1 = new(center: new(0, 0, -1), 0.5f, MatRed);
         Sphere sphere2 = new(center: new(0, -100.5f, -1), 100.0f, MatBlue);
+        Sphere sphere3 = new(center: new(1, 0, -1), 0.5f, MatDielect1);
         scene.AddItem(sphere1);
         scene.AddItem(sphere2);
+        scene.AddItem(sphere3);
 
         Light light = new Light(new(0, 8, 0), Color.White);
         scene.AddLight(light);
