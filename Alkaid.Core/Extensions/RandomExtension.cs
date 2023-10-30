@@ -30,6 +30,14 @@ public static class RandomExtension {
             }
         }
     }
+    public static Vector3 InUnitSphere(this Random random) {
+        while (true) {
+            Vector3 tmp = new(random.NextSingle() * 2.0f - 1.0f, random.NextSingle() * 2.0f - 1.0f, random.NextSingle() * 2.0f - 1.0f);
+            if (tmp.LengthSquared() < 1) {
+                return tmp;
+            }
+        }
+    }
     public static Vector3 UnitDisk(this Random random) {
         while (true) {
             Vector3 p = new Vector3(random.NextSingle(-1, 1), random.NextSingle(-1, 1), 0);
@@ -37,12 +45,11 @@ public static class RandomExtension {
                 return p;
         }
     }
-    public static Vector3 UnitHemisphere(this Random random, Vector3 normal) {
+    public static Vector3 InUnitHemisphere(this Random random, Vector3 normal) {
         Vector3 unit = random.UnitVector();
         if (Vector3.Dot(unit, normal) > 0.0)
             return unit;
         else
             return -unit;
     }
-
 }

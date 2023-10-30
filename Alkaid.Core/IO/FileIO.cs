@@ -1,5 +1,6 @@
 ﻿using Alkaid.Core;
 using Alkaid.Core.Data;
+using Alkaid.Core.Material;
 using Alkaid.Core.Primitives;
 using System.Numerics;
 
@@ -66,8 +67,8 @@ public static class FileIO {
                     Console.WriteLine($"E : {option.LookFrom}");
                     break;
                 case "F":
-                    option.Fov = float.Parse(tokens[1]);
-                    Console.WriteLine($"F : {option.Fov}");
+                    option.hFov = float.Parse(tokens[1]);
+                    Console.WriteLine($"F : {option.hFov}");
                     break;
                 case "R":
                     int width = int.Parse(tokens[1]);

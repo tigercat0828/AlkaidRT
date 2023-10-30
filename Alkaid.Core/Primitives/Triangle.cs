@@ -1,9 +1,11 @@
 ﻿using Alkaid.Core.Data;
+using Alkaid.Core.Material;
 using System.Numerics;
 using static System.MathF;
 using static System.Numerics.Vector3;
 
-namespace Alkaid.Core.Primitives {
+namespace Alkaid.Core.Primitives
+{
     public class Triangle : IHitable {
         public int ID { get; }
         public Vector3 pos1;
@@ -16,10 +18,10 @@ namespace Alkaid.Core.Primitives {
         public Vector3 Normal;
         private Vector3 W; // to determin alpha, beta
         private float D;    // D = Ax+By+Cz
-        public PhongMat Material { get; set; }
+        public MaterialBase Material { get; set; }
 
 
-        public Triangle(Vector3 pos1, Vector3 pos2, Vector3 pos3, PhongMat material) {
+        public Triangle(Vector3 pos1, Vector3 pos2, Vector3 pos3, MaterialBase material) {
             this.pos1 = pos1;
             this.pos2 = pos2;
             this.pos3 = pos3;
@@ -33,7 +35,7 @@ namespace Alkaid.Core.Primitives {
             W = n / Dot(n, n);
             ID = GetHashCode();
         }
-        public Triangle(Vector3 pos1, Vector3 pos2, Vector3 pos3) : this(pos1, pos2, pos3, new()) { }
+        public Triangle(Vector3 pos1, Vector3 pos2, Vector3 pos3) : this(pos1, pos2, pos3, new PhongMat()) { }
 
         public bool Hit(Ray ray) {
             float denom = Dot(Normal, ray.Direction);

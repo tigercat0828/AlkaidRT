@@ -1,0 +1,18 @@
+// MainCam.SetRenderer(new PhongRenderer());
+// MainCam.MaxDepth = 1;
+Scene world = BuildScene();
+CamOption option = new() {
+    AspectRatio = 16 / 9f,
+    Fov = 90,
+    //LookFrom = new Vector3(-3, 1.5f, 3f),
+    //LookAt = new Vector3(-3, 1.5f, 0),
+    LookFrom = new Vector3(-3, 8f, 1.5f),
+    LookAt = new Vector3(-3, 0f, -1.5f),
+    ImageWidth = 1600
+};
+Camera MainCam = new (option);
+MainCam.FocusDistance = 6f; // 8 / 6 / 4  
+MainCam.DefocusAngle = 1.0f;
+MainCam.SetRenderer(new PhongRenderer());
+MainCam.Initialize();
+output = MainCam.Render(world);

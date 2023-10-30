@@ -16,15 +16,16 @@ public class Camera {
     public int ImageWidth;
     public int ImageHeight { get; private set; }
     public float Hfov { get; private set; }
-    public int SampleNum = 50;
-    public Vector3 m_LookFrom;
-    public Vector3 m_LookAt;
+    public int SampleNum = 1;
+    public int MaxDepth = 1;
+    public Vector3 LookFrom;
+    public Vector3 LookAt;
     public Vector3 m_Center { get; private set; }
 
     private Vector3 m_pixel00;
     private Vector3 m_deltaU;
     private Vector3 m_deltaV;
-    private Vector3 m_Vup;
+    private Vector3 Vup;
     private Vector3 U, V, W;
     
     // detemine the aperture size
@@ -39,10 +40,13 @@ public class Camera {
     public void SetOption(CamOption option) {
         AspectRatio = option.AspectRatio;
         ImageWidth = option.ImageWidth;
-        Hfov = option.Fov;
-        m_LookFrom = option.LookFrom;
-        m_LookAt = option.LookAt;
-        m_Vup = option.Vup;
+        Hfov = option.hFov;
+        LookAt = option.LookAt;
+        LookFrom = option.LookFrom;
+        Vup = option.Vup;
+        DefocusAngle = option.DefocusAngle;
+        FocusDistance = option.FocusDistance;
+        SampleNum = option.SampleNum;
     }
     public void SetRenderer(RendererBase renderer) {
         Renderer = renderer;
@@ -59,34 +63,21 @@ public class Camera {
                 Color color = Color.None;
                 for (int t = 0; t < SampleNum; t++) {
                     Ray ray = GetRay(i, j);
-                    color += Renderer.RayColor(ray, scene, 1);
+                    color += Renderer.RayColor(ray, scene, MaxDepth);
                 }
                 color /= SampleNum;
-                color *= 255.99f;
-                output.SetPixel(i, j, color.Clamp());
-            }
-        }
-        return output;
-    }
-    public RawImage RenderMT(Scene scene) { // shot a photo !!
-        if (Renderer == null) {
-            Console.WriteLine("Renderer of camera is missing!");
-        }
-        RawImage output = new(ImageWidth, ImageHeight);
-        RendererBase renderer = Renderer;
-        Parallel.For(0, ImageHeight, j => {
-            for (int i = 0; i < ImageWidth; i++) {
 
-                Color color = Color.None;
-                for (int t = 0; t < SampleNum; t++) {
-                    Ray ray = GetRay(i, j);
-                    color += renderer.RayColor(ray, scene, 1);
-                }
-                color /= SampleNum;
+                // gamma correction
+                color.R = Sqrt(color.R);
+                color.G = Sqrt(color.G);
+                color.B = Sqrt(color.B);
+
                 color *= 255.99f;
+                
+
                 output.SetPixel(i, j, color.Clamp());
             }
-        });
+        }
         return output;
     }
 
@@ -109,14 +100,14 @@ public class Camera {
         ImageHeight = (int)(ImageWidth / AspectRatio);
         ImageHeight = ImageHeight < 1 ? 1 : ImageHeight;
 
-        m_Center = m_LookFrom;
+        m_Center = LookFrom;
         float theta = Hfov * DEG2RAD;
         float w = Tan(theta / 2);
         float viewportWidth = 2.0f * w * FocusDistance;
         float viewportHeight = viewportWidth * ImageHeight / ImageWidth;
 
-        W = Normalize(m_LookFrom - m_LookAt);
-        U = Normalize(Cross(m_Vup, W));
+        W = Normalize(LookFrom - LookAt);
+        U = Normalize(Cross(Vup, W));
         V = Normalize(Cross(W, U));
 
         Vector3 viewportU = viewportWidth * U;

@@ -1,6 +1,7 @@
 ﻿using Alkaid.Core;
 using Alkaid.Core.Data;
 using Alkaid.Core.IO;
+using Alkaid.Core.Material;
 using Alkaid.Core.Primitives;
 using Alkaid.Core.Renderer;
 using System.Drawing;
@@ -22,67 +23,55 @@ public partial class MainWindow : Window {
     Bitmap bitmap;
     public MainWindow() {
         InitializeComponent();
-        (MainCam, world) = FileIO.Parse("./Assets/hw2_input.txt");
     }
     private async void RenderBtn_Click(object sender, RoutedEventArgs e) {
         c_RenderBtn.IsEnabled = false;
         await Task.Run(() => RenderScene());
-        //RenderScene();
+
         bitmap = Utility.RawImageToBitmap(output);
         Utility.UpdateImageBox(c_RenderImgBox, bitmap);
         c_RenderBtn.IsEnabled = true;
     }
     private void RenderScene() {
-        (MainCam, world) = FileIO.Parse("./Assets/hw3_input.txt");
-        MainCam.DefocusAngle = 1.0f;
-        MainCam.SetRenderer(new PhongRenderer());
+        world = BuildScene();
 
-        MainCam.FocusDistance = 20f; 
+        CamOption option = new() {
+            AspectRatio = 16 / 9f,
+            hFov = 90,
+            //LookFrom = new Vector3(-3, 8f, 1.5f),
+            //LookAt = new Vector3(-3, 0f, -1.5f),
+            LookFrom = new Vector3(0, 0, 1),
+            LookAt = new Vector3(0, 0, -1f),
+            DefocusAngle = 0.0f,
+            FocusDistance = 20f,
+            SampleNum = 10,
+            ImageWidth = 800
+        };
+        MainCam = new Camera(option);
+
+        
+        MainCam.SetRenderer(new RtiowkRenderer());
+        MainCam.MaxDepth = 50;
+        //MainCam.SetRenderer(new PhongRenderer());
+        //MainCam.MaxDepth = 1;
+        
+        
         MainCam.Initialize();
-        output = MainCam.RenderMT(world);
+        output = MainCam.Render(world);
     }
     private Scene BuildScene() {
-
+        // 
         Scene scene = new();
         PhongMat MatRed = new(Color.Red);
         PhongMat MatBlue = new(Color.Blue);
-        PhongMat MatGreen = new(Color.Green);
-        PhongMat MatYellow = new(Color.Yellow);
-
-        int planeLen = 50;
-        Vector3 A = new(planeLen, 0, planeLen);
-        Vector3 B = new(planeLen, 0, -planeLen);
-        Vector3 C = new(-planeLen, 0, -planeLen);
-        Vector3 D = new(-planeLen, 0, planeLen);
-        Triangle tri1 = new(A, B, C, MatGreen);
-        Triangle tri2 = new(C, D, A, MatGreen);
-        Sphere sphere1 = new(new(-1, 1.0f, -1), 1, MatRed);
-        Sphere sphere2 = new(new(-2, 1.0f, -3), 1, MatBlue);
-        Sphere sphere3 = new(new(-3, 1.0f, -5), 1, MatYellow);
-        Light light = new Light(new(0, 8, 0), Color.White);
-
-        scene.AddItem(tri1);
-        scene.AddItem(tri2);
+      
+        Sphere sphere1 = new(center: new(0, 0, -1), 0.5f, MatRed);
+        Sphere sphere2 = new(center: new(0, -100.5f, -1), 100.0f, MatBlue);
         scene.AddItem(sphere1);
         scene.AddItem(sphere2);
-        scene.AddItem(sphere3);
+
+        Light light = new Light(new(0, 8, 0), Color.White);
         scene.AddLight(light);
         return scene;
     }
 }
-//Scene world = BuildScene();
-//CamOption option = new() {
-//    AspectRatio = 16 / 9f,
-//    Fov = 90,
-//    //LookFrom = new Vector3(-3, 1.5f, 3f),
-//    //LookAt = new Vector3(-3, 1.5f, 0),
-//    LookFrom = new Vector3(-3, 8f, 1.5f),
-//    LookAt = new Vector3(-3, 0f, -1.5f),
-//    ImageWidth = 1600
-//};
-//Camera MainCam = new (option);
-//MainCam.FocusDistance = 6f; // 8 / 6 / 4  
-//MainCam.DefocusAngle = 1.0f;
-//MainCam.SetRenderer(new PhongRenderer());
-//MainCam.Initialize();
-//output = MainCam.Render(world);

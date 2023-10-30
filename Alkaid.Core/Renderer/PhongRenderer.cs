@@ -1,4 +1,5 @@
 ﻿using Alkaid.Core.Data;
+using Alkaid.Core.Material;
 using System.Numerics;
 using static System.MathF;
 using static System.Numerics.Vector3;
@@ -15,12 +16,12 @@ public class PhongRenderer : RendererBase {
 
             Vector3 normal = Normalize(record.Normal);
             Vector3 pixelPos = record.Point;
+
+            // TODO : fix multiple light
+            //foreach(Light light in scene.Lights) {
             Light light = scene.Lights[0];
             Vector3 viewDir = Normalize(ray.Direction);
-            PhongMat material = record.Material;
-
-            // multi light to fix
-            //foreach(Light light in scene.Lights) {
+            PhongMat material = (PhongMat)record.Material;
 
             Color pixelColor = new();
             Vector3 lightDir = Normalize(pixelPos - light.Position);
