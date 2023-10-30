@@ -14,12 +14,10 @@ public class Camera {
     const float DEG2RAD = PI / 180f;
     public RendererBase Renderer { get; private set; }
     public float AspectRatio { get; private set; }
-
-
-    public int SampleNum = 50;
     public int ImageWidth;
     public int ImageHeight { get; private set; }
     public float Hfov { get; private set; }
+    public int SampleNum = 50;
     public Vector3 m_LookFrom;
     public Vector3 m_LookAt;
     public Vector3 m_Center { get; private set; }
@@ -69,13 +67,11 @@ public class Camera {
                 color /= SampleNum;
                 color *= 255.99f;
                 output.SetPixel(i, j, color.Clamp());
-                
             }
         }
         return output;
     }
     Vector3 GetSampleOffset() {
-        // Returns a random point in the square surrounding a pixel at the origin.
         float px = -0.5f + random.NextSingle();
         float py = -0.5f + random.NextSingle();
         return px * m_deltaU + py * m_deltaV;
@@ -85,21 +81,16 @@ public class Camera {
         if (SampleNum > 1) {
             pixelCenter += GetSampleOffset();
         }
-
         Vector3 rayOrigin = DefocusAngle <= 0 ? m_Center : GetRayFromDisk();
         Vector3 rayDirection = pixelCenter - rayOrigin;
 
         return new Ray(rayOrigin, rayDirection);
     }
     public void Initialize() {
-        // Image
-        // Calculate the image height, and ensure that it's at least 1.
         ImageHeight = (int)(ImageWidth / AspectRatio);
         ImageHeight = ImageHeight < 1 ? 1 : ImageHeight;
 
         m_Center = m_LookFrom;
-        // Camera
-        //float focalLength = (m_LookFrom - m_LookAt).Length();
         float theta = Hfov * DEG2RAD;
         float w = Tan(theta / 2);
         float viewportWidth = 2.0f * w * FocusDistance;
@@ -109,15 +100,12 @@ public class Camera {
         U = Normalize(Cross(m_Vup, W));
         V = Normalize(Cross(W, U));
 
-        // Calculate the vectors across the horizontal and down the vertical viewport edges.
         Vector3 viewportU = viewportWidth * U;
         Vector3 viewportV = viewportHeight * -V;
 
-        // Calculate the horizontal and vertical delta vectors from pixel to pixel.
         m_deltaU = viewportU / ImageWidth;
         m_deltaV = viewportV / ImageHeight;
 
-        // Calculate the location of the upper left pixel.
         Vector3 viewportUpperLeft = m_Center - FocusDistance * W - viewportU / 2 - viewportV / 2;
         m_pixel00 = viewportUpperLeft + 0.5f * (m_deltaU + m_deltaV);
 
@@ -126,7 +114,6 @@ public class Camera {
         defocusDiskV = V * defocusRadius;
     }
     Vector3 GetRayFromDisk() {
-        // Returns a random point in the camera defocus disk.
         Vector3 p = random.UnitDisk();
         return m_Center + p.X * defocusDiskU + p.Y * defocusDiskV;
     }
