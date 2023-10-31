@@ -20,7 +20,6 @@
 
                 <StackPanel Grid.Column="1" DockPanel.Dock="Top">
                     <TextBlock FontWeight="Bold" Margin="0 0 0 2">Camera</TextBlock>
-                   
                     <!--pos-->
                     <TextBlock>LookPos</TextBlock>
                     <StackPanel Orientation="Horizontal">
@@ -45,7 +44,6 @@
                     <StackPanel >
                         <TextBlock>Fov</TextBlock>
                         <TextBox ></TextBox>
-                        
                         <TextBlock>Aspect Ratio</TextBlock>
                         <TextBox ></TextBox>
 
@@ -54,19 +52,18 @@
 
                         <TextBlock>Focal Length</TextBlock>
                         <TextBox ></TextBox>
-                        
                         <TextBlock>Depth</TextBlock>
                         <TextBox ></TextBox>
 
                         <TextBlock>Sample</TextBlock>
                         <TextBox ></TextBox>
-                        
-                        
-                        
-                        
+
                     </StackPanel>
                     <StackPanel>
-                        <TextBlock FontWeight="Bold" Margin="0 2 0 2">Scene</TextBlock>
+                        <DockPanel>
+                            <Button Margin="2 2 2 2" Width="20" DockPanel.Dock="Right">+</Button>
+                            <TextBlock FontWeight="Bold" Margin="0 2 0 2" DockPanel.Dock="Left">Scene</TextBlock>
+                        </DockPanel>
                         <ListBox>
                             <ListBoxItem>
                                 <TextBlock>Sphere 1</TextBlock>
@@ -82,6 +79,6 @@
                 </StackPanel>
             </DockPanel>
         </Border>
-        
+
     </Grid>
 </Window>

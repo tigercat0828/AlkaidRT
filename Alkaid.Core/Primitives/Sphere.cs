@@ -1,4 +1,5 @@
 ﻿using Alkaid.Core.Data;
+using Alkaid.Core.Material;
 using System.Numerics;
 using static System.MathF;
 using static System.Numerics.Vector3;
@@ -7,14 +8,14 @@ public class Sphere : IHitable {
 
     public Vector3 Center { get; set; }
     public float Radius { get; set; }
-    public PhongMat Material { get; set; }
+    public MaterialBase Material { get; set; }
     public int ID { get; }
 
-    public Sphere() : this(Vector3.Zero, 1, new()) { }
+    public Sphere() : this(Vector3.Zero, 1, new PhongMat()) { }
 
-    public Sphere(Vector3 center, float radius) : this(center, radius, new()) { }
+    public Sphere(Vector3 center, float radius) : this(center, radius, new PhongMat()) { }
 
-    public Sphere(Vector3 center, float radius, PhongMat material) {
+    public Sphere(Vector3 center, float radius, MaterialBase material) {
         ID = GetHashCode();
         Center = center;
         Radius = radius;

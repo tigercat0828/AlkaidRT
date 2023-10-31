@@ -1,6 +1,6 @@
 ﻿using Alkaid.Core;
 using Alkaid.Core.IO;
-using Alkaid.Core.Render;
+using Alkaid.Core.Renderer;
 using System.Diagnostics;
 
 RawImage output;
@@ -15,19 +15,19 @@ Console.WriteLine("-----------------------------------------------------");
 Stopwatch stopwatch = new ();
 
 stopwatch.Start();
-output = MainCam.RenderMT(world);
+output = MainCam.Render(world);
 output.SaveFile("focus20cm.ppm");
 Console.WriteLine("focus20cm Done");
 
 MainCam.FocusDistance = 40f;
 MainCam.Initialize();
-output = MainCam.RenderMT(world);
+output = MainCam.Render(world);
 output.SaveFile("focus40cm.ppm");
 Console.WriteLine("focus40cm Done");
 
 MainCam.FocusDistance = 60f;
 MainCam.Initialize();
-output = MainCam.RenderMT(world);
+output = MainCam.Render(world);
 output.SaveFile("focus60cm.ppm");
 Console.WriteLine("focus60cm Done");
 stopwatch.Stop();

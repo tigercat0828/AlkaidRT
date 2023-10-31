@@ -6,6 +6,9 @@ public static class RandomExtension {
     public static Vector3 RandomVec3(this Random random) {
         return new Vector3(random.NextSingle(), random.NextSingle(), random.NextSingle());
     }
+    /// <summary>
+    /// return a random vector which x, y, z in [min, max]
+    /// </summary>
     public static Vector3 RandomVec3(this Random random, float min, float max) {
         float x = random.NextSingle(min, max);
         float y = random.NextSingle(min, max);
@@ -16,11 +19,22 @@ public static class RandomExtension {
         float t = random.NextSingle();
         return t * (max - min) + min;
     }
+    /// <summary>
+    /// return random direction vector which length is 1
+    /// </summary>
     public static Vector3 UnitVector(this Random random) {
         while (true) {
             Vector3 tmp = new(random.NextSingle() * 2.0f - 1.0f, random.NextSingle() * 2.0f - 1.0f, random.NextSingle() * 2.0f - 1.0f);
             if (tmp.LengthSquared() < 1) {
                 return Vector3.Normalize(tmp);
+            }
+        }
+    }
+    public static Vector3 InUnitSphere(this Random random) {
+        while (true) {
+            Vector3 tmp = new(random.NextSingle() * 2.0f - 1.0f, random.NextSingle() * 2.0f - 1.0f, random.NextSingle() * 2.0f - 1.0f);
+            if (tmp.LengthSquared() < 1) {
+                return tmp;
             }
         }
     }
@@ -31,12 +45,11 @@ public static class RandomExtension {
                 return p;
         }
     }
-    public static Vector3 UnitHemisphere(this Random random, Vector3 normal) {
+    public static Vector3 InUnitHemisphere(this Random random, Vector3 normal) {
         Vector3 unit = random.UnitVector();
         if (Vector3.Dot(unit, normal) > 0.0)
             return unit;
         else
             return -unit;
     }
-
 }
