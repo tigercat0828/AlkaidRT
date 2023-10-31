@@ -60,17 +60,42 @@ public partial class MainWindow : Window {
         Scene scene = new();
         MatLambertian MatRed = new(Color.Red);
         MatLambertian MatBlue = new(Color.Blue);
+        MatLambertian MatGreen = new(Color.Green);
+        MatLambertian MatYellow = new(Color.Yellow);
         MatDielectric MatDielect1 = new(1.5f);
+        MatMetal MatMetalWhite = new(0.7f * Color.White);
         // MatDielectric MatDielect2 = new(1.5f);
-        Sphere sphere1 = new(center: new(0, 0, -1), 0.5f, MatRed);
-        Sphere sphere2 = new(center: new(0, -100.5f, -1), 100.0f, MatBlue);
-        Sphere sphere3 = new(center: new(1, 0, -1), 0.5f, MatDielect1);
+        Sphere sphere1 = new(center: new(0, -100.5f, -1), 100.0f, MatGreen); // ground ball
+        Sphere sphere4 = new(center: new(0, 0, -1), 0.5f, MatDielect1);
         scene.AddItem(sphere1);
-        scene.AddItem(sphere2);
-        scene.AddItem(sphere3);
+        scene.AddItem(sphere4);
 
         Light light = new Light(new(0, 8, 0), Color.White);
         scene.AddLight(light);
         return scene;
     }
 }
+
+/*
+        Scene scene = new();
+        MatLambertian MatRed = new(Color.Red);
+        MatLambertian MatBlue = new(Color.Blue);
+        MatLambertian MatGreen = new(Color.Green);
+        MatLambertian MatYellow = new(Color.Yellow);
+        MatDielectric MatDielect1 = new(1.5f);
+        MatMetal MatMetalWhite = new(0.7f * Color.White);
+        // MatDielectric MatDielect2 = new(1.5f);
+        Sphere sphere1 = new(center: new(0, -100.5f, -1), 100.0f, MatGreen); // ground ball
+        Sphere sphere3 = new(center: new(1, 0, -1), 0.5f, MatRed);
+        Sphere sphere2 = new(center: new(0, 0, -1), 0.5f, MatMetalWhite);
+        Sphere sphere4 = new(center: new(-1, 0, -1), 0.5f, MatBlue);
+        scene.AddItem(sphere1);
+        scene.AddItem(sphere2);
+        scene.AddItem(sphere3);
+        scene.AddItem(sphere4);
+
+        Light light = new Light(new(0, 8, 0), Color.White);
+        scene.AddLight(light);
+        return scene;
+
+*/
