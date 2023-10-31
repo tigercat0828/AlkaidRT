@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Alkaid.WPF"
         mc:Ignorable="d"
-        Title="MainWindow"  Width="800" Height="450">
+        Title="Raytracing"  Width="800" Height="450">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="4*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="150"/>
         </Grid.ColumnDefinitions>
         <Border Grid.Column="0" Margin="4 4 2 4" BorderThickness="1" BorderBrush="Black" >
             <Image Name="c_RenderImgBox"></Image>
@@ -19,14 +19,65 @@
                 <Button DockPanel.Dock="Bottom" Height="20" Name="c_RenderBtn" Click="RenderBtn_Click" Content="Render"></Button>
 
                 <StackPanel Grid.Column="1" DockPanel.Dock="Top">
-                    <TextBlock>Camera Position</TextBlock>
+                    <TextBlock FontWeight="Bold" Margin="0 0 0 2">Camera</TextBlock>
+                   
+                    <!--pos-->
+                    <TextBlock>LookPos</TextBlock>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock>X</TextBlock>
-                        <TextBox Width="40"></TextBox>
-                        <TextBlock>Y</TextBlock>
-                        <TextBox Width="40"></TextBox>
-                        <TextBlock>Z</TextBlock>
-                        <TextBox Width="40"></TextBox>
+                        <TextBlock Background="Red">X</TextBlock>
+                        <TextBox Width="40" TextAlignment="Center"></TextBox>
+                        <TextBlock Background="Green">Y</TextBlock>
+                        <TextBox Width="40" TextAlignment="Center"></TextBox>
+                        <TextBlock Background="Blue">Z</TextBlock>
+                        <TextBox Width="40" TextAlignment="Center"></TextBox>
+                    </StackPanel>
+                    <!--pos-->
+                    <TextBlock>LookAt</TextBlock>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Background="Red">X</TextBlock>
+                        <TextBox Width="40" TextAlignment="Center"></TextBox>
+                        <TextBlock Background="Green">Y</TextBlock>
+                        <TextBox Width="40" TextAlignment="Center"></TextBox>
+                        <TextBlock Background="Blue">Z</TextBlock>
+                        <TextBox Width="40" TextAlignment="Center"></TextBox>
+                    </StackPanel>
+                    <!-- -->
+                    <StackPanel >
+                        <TextBlock>Fov</TextBlock>
+                        <TextBox ></TextBox>
+                        
+                        <TextBlock>Aspect Ratio</TextBlock>
+                        <TextBox ></TextBox>
+
+                        <TextBlock>Aperture</TextBlock>
+                        <TextBox ></TextBox>
+
+                        <TextBlock>Focal Length</TextBlock>
+                        <TextBox ></TextBox>
+                        
+                        <TextBlock>Depth</TextBlock>
+                        <TextBox ></TextBox>
+
+                        <TextBlock>Sample</TextBlock>
+                        <TextBox ></TextBox>
+                        
+                        
+                        
+                        
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock FontWeight="Bold" Margin="0 2 0 2">Scene</TextBlock>
+                        <ListBox>
+                            <ListBoxItem>
+                                <TextBlock>Sphere 1</TextBlock>
+                            </ListBoxItem>
+                            <ListBoxItem>
+                                <TextBlock>Sphere 2</TextBlock>
+                            </ListBoxItem>
+                            <ListBoxItem>
+                                <TextBlock>Sphere 3</TextBlock>
+                            </ListBoxItem>
+                        </ListBox>
                     </StackPanel>
                 </StackPanel>
             </DockPanel>
