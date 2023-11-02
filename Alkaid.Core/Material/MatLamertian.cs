@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace Alkaid.Core.Material {
     public class MatLambertian : MaterialBase {
-        Random random = new ();
+        Random random = new();
         Color albedo;
 
         public MatLambertian(Color albedo) {

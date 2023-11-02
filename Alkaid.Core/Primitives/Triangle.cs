@@ -4,8 +4,7 @@ using System.Numerics;
 using static System.MathF;
 using static System.Numerics.Vector3;
 
-namespace Alkaid.Core.Primitives
-{
+namespace Alkaid.Core.Primitives {
     public class Triangle : IHitable {
         public int ID { get; }
         public Vector3 pos1;

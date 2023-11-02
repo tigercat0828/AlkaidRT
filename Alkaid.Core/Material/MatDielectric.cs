@@ -2,7 +2,7 @@
 using System.Numerics;
 using static Alkaid.Core.Extensions.MathR;
 using static System.Numerics.Vector3;
-namespace Alkaid.Core.Material; 
+namespace Alkaid.Core.Material;
 
 public class MatDielectric : MaterialBase {
     public float ir;

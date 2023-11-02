@@ -27,12 +27,12 @@ public class Camera {
     private Vector3 m_deltaV;
     private Vector3 Vup;
     private Vector3 U, V, W;
-    
+
     // detemine the aperture size
     public float DefocusAngle = 0;
     public float FocusDistance = 10;
-    Vector3 defocusDiskU; 
-    Vector3 defocusDiskV; 
+    Vector3 defocusDiskU;
+    Vector3 defocusDiskV;
     public Camera() { }
     public Camera(CamOption option) {
         SetOption(option);
@@ -73,7 +73,7 @@ public class Camera {
                 color.B = Sqrt(color.B);
 
                 color *= 255.99f;
-                
+
 
                 output.SetPixel(i, j, color.Clamp());
             }

@@ -1,8 +1,7 @@
 ﻿using Alkaid.Core.Data;
 using Alkaid.Core.Material;
 
-namespace Alkaid.Core.Primitives
-{
+namespace Alkaid.Core.Primitives {
     public class Quad : IHitable {
         public int ID => throw new NotImplementedException();
         MaterialBase IHitable.Material { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }

@@ -38,7 +38,7 @@ public struct Color {
         return new Color(scalar * color.R, scalar * color.G, scalar * color.B);
     }
     public static Color operator /(Color color, float scalar) {
-        return new Color(color.R/scalar, color.G/scalar, color.B/scalar);
+        return new Color(color.R / scalar, color.G / scalar, color.B / scalar);
     }
 
 

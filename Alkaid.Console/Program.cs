@@ -12,7 +12,7 @@ MainCam.Initialize();
 Console.WriteLine("-----------------------------------------------------");
 
 
-Stopwatch stopwatch = new ();
+Stopwatch stopwatch = new();
 
 stopwatch.Start();
 output = MainCam.Render(world);

@@ -51,7 +51,7 @@ public partial class MainWindow : Window {
 
         MainCam.SetRenderer(new RtiowkRenderer());
         MainCam.MaxDepth = 50;
-        
+
         MainCam.Initialize();
         output = MainCam.Render(world);
     }

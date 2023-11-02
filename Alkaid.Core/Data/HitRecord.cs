@@ -1,8 +1,7 @@
-﻿using System.Numerics;
-using Alkaid.Core.Material;
+﻿using Alkaid.Core.Material;
+using System.Numerics;
 
-namespace Alkaid.Core.Data
-{
+namespace Alkaid.Core.Data {
     public class HitRecord {
         public float t;
         public Vector3 Point;
