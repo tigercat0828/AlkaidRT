@@ -6,7 +6,7 @@ using static System.Numerics.Vector3;
 
 namespace Alkaid.Core.Renderer;
 public class PhongRenderer : RendererBase {
-
+    // if output is weird, try add one light
     public override Color RayColor(Ray ray, Scene scene, int depth) {
         if (depth == 0)
             return Color.None;

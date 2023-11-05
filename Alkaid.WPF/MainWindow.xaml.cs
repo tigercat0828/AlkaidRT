@@ -33,7 +33,8 @@ public partial class MainWindow : Window {
         c_RenderBtn.IsEnabled = true;
     }
     private void RenderScene() {
-        world = BuildScene();
+        world = BuildSceneMetal();
+        world = BuildSceneLambertian();
 
         CamOption option = new() {
             AspectRatio = 16 / 9f,
@@ -55,6 +56,38 @@ public partial class MainWindow : Window {
         MainCam.Initialize();
         output = MainCam.Render(world);
     }
+    private Scene BuildSceneMetal() {
+        Scene scene = new();
+        MatLambertian matGreen = new(Color.Green);
+        MatMetal matMetal1 = new(0.7f * Color.White, 0);
+        MatMetal matMetal2 = new(0.7f * Color.White, 0.3f);
+        MatMetal matMetal3 = new(0.7f * Color.White, 0.8f);
+        Sphere sphere1 = new Sphere(new(1, 0, -1),0.5f, matMetal1);
+        Sphere sphere2 = new Sphere(new(0, 0, -1), 0.5f, matMetal2);
+        Sphere sphere3 = new Sphere(new(-1, 0, -1), 0.5f, matMetal3);
+        Sphere groundSphere = new(center: new(0, -100.5f, -1), 100.0f, matGreen); // ground ball
+        scene.AddItem(groundSphere);
+        scene.AddItem(sphere1);
+        scene.AddItem(sphere2);
+        scene.AddItem(sphere3);
+        return scene;
+    }
+    private Scene BuildSceneLambertian() {
+        Scene scene = new();
+        MatLambertian matGreen = new(Color.Green);
+        MatLambertian matLabertian1 = new(Color.Magenta);
+        MatLambertian matLabertian2 = new(Color.Blue);
+        MatLambertian matLabertian3 = new(Color.Red);
+        Sphere sphere1 = new Sphere(new(1, 0, -1), 0.5f, matLabertian1);
+        Sphere sphere2 = new Sphere(new(0, 0, -1), 0.5f, matLabertian2);
+        Sphere sphere3 = new Sphere(new(-1, 0, -1), 0.5f, matLabertian3);
+        Sphere groundSphere = new(center: new(0, -100.5f, -1), 100.0f, matGreen); // ground ball
+        scene.AddItem(groundSphere);
+        scene.AddItem(sphere1);
+        scene.AddItem(sphere2);
+        scene.AddItem(sphere3);
+        return scene;
+    }
     private Scene BuildScene() {
         // 
         Scene scene = new();
@@ -63,7 +96,7 @@ public partial class MainWindow : Window {
         MatLambertian MatGreen = new(Color.Green);
         MatLambertian MatYellow = new(Color.Yellow);
         MatDielectric MatDielect1 = new(1.5f);
-        MatMetal MatMetalWhite = new(0.7f * Color.White);
+        MatMetal MatMetalWhite = new(0.7f * Color.White,0);
         // MatDielectric MatDielect2 = new(1.5f);
         Sphere sphere1 = new(center: new(0, -100.5f, -1), 100.0f, MatGreen); // ground ball
         Sphere sphere4 = new(center: new(0, 0, -1), 0.5f, MatDielect1);

@@ -21,12 +21,12 @@ public class RtiowkRenderer : RendererBase {
             }
             return Color.None;
         }
-        return Sky(ray);
+        return SkyColor(ray);
     }
 
     Color bottom = new Color(0.5f, 0.7f, 1.0f);
     //Color bottom = new Color(1.0f, 0.7f, 0.3f);
-    private Color Sky(Ray ray) {
+    private Color SkyColor(Ray ray) {
 
         Vector3 unitDirection = Normalize(ray.Direction);
         float t = 0.5f * (unitDirection.Y + 1.0f);

@@ -52,6 +52,7 @@ public class Camera {
         Renderer = renderer;
     }
     public RawImage Render(Scene scene) { // shot a photo !!
+        // may turn into a multithread approach
         if (Renderer == null) {
             Console.WriteLine("Renderer of camera is missing!");
         }
