@@ -74,7 +74,6 @@ public class Camera {
 
                 color *= 255.99f;
 
-
                 output.SetPixel(i, j, color.Clamp());
             }
         }
