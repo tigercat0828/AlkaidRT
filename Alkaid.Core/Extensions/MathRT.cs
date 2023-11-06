@@ -1,30 +1,45 @@
 ﻿using System.Numerics;
 using static System.MathF;
 using static System.Numerics.Vector3;
+using Alkaid.Core.Data;
 namespace Alkaid.Core.Extensions {
     public static class MathRT {
-        public static Random random = new ();
-        public static Vector3 Refract(Vector3 uv, Vector3 n, float etai_over_etat) {
-            float cos_theta = Min(Dot(-uv, n), 1.0f);
-            Vector3 r_out_perp = etai_over_etat * (uv + cos_theta * n);
-            Vector3 r_out_parallel = -Sqrt(Abs(1.0f - r_out_perp.LengthSquared())) * n;
-            return r_out_perp + r_out_parallel;
+        private static readonly Random random = new();
+        public static Vector3 Refract(Vector3 rin, Vector3 normal, float etai_over_etat) {
+            float cosTheta = Min(Dot(-rin, normal), 1.0f);
+            Vector3 routPerp = etai_over_etat * (rin + cosTheta * normal);
+            Vector3 routPara = -Sqrt(Abs(1.0f - routPerp.LengthSquared())) * normal;
+            return routPerp + routPara;
         }
-        public static Vector3 RandomUnitVector() {
-            while (true) {
-                Vector3 tmp = new(random.NextSingle() * 2.0f - 1.0f, random.NextSingle() * 2.0f - 1.0f, random.NextSingle() * 2.0f - 1.0f);
-                if (tmp.LengthSquared() < 1) {
-                    return Vector3.Normalize(tmp);
-                }
-            }
-        }
+
         public static bool NearZero(Vector3 vec) {
             float error = 1e-8f;
             return Abs(vec.X) < error && Abs(vec.Y) < error && Abs(vec.Z) < error;
         }
-        public static float NextSingle(float min, float max) {
+        public static float RandomSingle(float min, float max) {
             float t = random.NextSingle();
             return t * (max - min) + min;
         }
+        public static float RandomSingle() {
+            return random.NextSingle();
+        }
+        public static Vector3 RandomUnitVector() {
+            while (true) {
+                float x = random.NextSingle() * 2.0f - 1.0f;
+                float y = random.NextSingle() * 2.0f - 1.0f;
+                float z = random.NextSingle() * 2.0f - 1.0f;
+                Vector3 tmp = new(x, y, z);
+                if (tmp.LengthSquared() < 1) {
+                    return Normalize(tmp);
+                }
+            }
+        }
+        public static Color RandomColor() {
+            float x = random.NextSingle() * 2.0f;
+            float y = random.NextSingle() * 2.0f;
+            float z = random.NextSingle() * 2.0f;
+            return new Color(x, y, z);
+        }
+        
     }
 }
