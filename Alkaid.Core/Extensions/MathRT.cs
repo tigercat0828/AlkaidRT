@@ -40,6 +40,13 @@ namespace Alkaid.Core.Extensions {
             float z = random.NextSingle() * 2.0f;
             return new Color(x, y, z);
         }
-        
+        public static float Min(float a, float b) {
+            if (a < b) return a;
+            return b;
+        }
+        public static float Max(float a, float b) {
+            if(a > b) return a;
+            return b;
+        }
     }
 }

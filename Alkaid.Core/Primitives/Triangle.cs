@@ -18,7 +18,7 @@ namespace Alkaid.Core.Primitives {
         private Vector3 W; // to determin alpha, beta
         private float D;    // D = Ax+By+Cz
         public MaterialBase Material { get; set; }
-
+        public AABB Box { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public Triangle(Vector3 pos1, Vector3 pos2, Vector3 pos3, MaterialBase material) {
             this.pos1 = pos1;

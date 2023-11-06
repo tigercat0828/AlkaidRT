@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using Color = Alkaid.Core.Data.Color;
 using static Alkaid.Core.Extensions.MathRT;
+using Microsoft.VisualBasic.FileIO;
+
 namespace Alkaid.WPF;
 /// <summary>
 /// Interaction logic for MainWindow.xaml
@@ -41,15 +43,16 @@ public partial class MainWindow : Window {
 
         CamOption option = new() {
             AspectRatio = 16 / 9f,
-            hFov = 90,
-            //LookFrom = new Vector3(-3, 8f, 1.5f),
-            //LookAt = new Vector3(-3, 0f, -1.5f),
-            LookFrom = new Vector3(0, 0, 1),
-            LookAt = new Vector3(0, 0, -1f),
+            //hFov = 90,
+            //LookFrom = new Vector3(0, 0, 1),
+            //LookAt = new Vector3(0, 0, -1f),
+            hFov = 40,
+            LookFrom = new Vector3(13, 2, 3),
+            LookAt = new Vector3(0, 0, 0),
             DefocusAngle = 0.0f,
             FocusDistance = 20f,
             SampleNum = 50,
-            ImageWidth = 1600
+            ImageWidth = 800
         };
         MainCam = new Camera(option);
 
@@ -142,7 +145,7 @@ public partial class MainWindow : Window {
                         // metal
                         Color albedo = RandomSingle(0.5f, 1.0f) * Color.White;
                         float fuzz = RandomSingle(0.0f, 0.5f);
-                        sphere_material =new  MatMetal(albedo, fuzz);
+                        sphere_material = new MatMetal(albedo, fuzz);
                         scene.AddItem(new Sphere(Center, 0.2f, sphere_material));
                     }
                     else {
@@ -153,6 +156,15 @@ public partial class MainWindow : Window {
                 }
             }
         }
+        MatDielectric dielectric = new(1.5f);
+        MatLambertian lambertian = new(new Color(0.4f, 0.2f, 0.1f));
+        MatMetal metal = new(new Color(0.7f, 0.6f, 0.5f), 0.05f);
+        Sphere sphere1 = new(new Vector3(0, 1, 0), 1, dielectric);
+        Sphere sphere2 = new(new Vector3(-4, 1, 0), 1, lambertian);
+        Sphere sphere3 = new(new Vector3(4, 1, 0), 1, metal);
+        scene.AddItem(sphere1);
+        scene.AddItem(sphere2);
+        scene.AddItem(sphere3);
         return scene;
     }
 }

@@ -5,23 +5,22 @@ using static System.MathF;
 using static System.Numerics.Vector3;
 namespace Alkaid.Core.Primitives;
 public class Sphere : IHitable {
-
     public Vector3 Center { get; set; }
     public float Radius { get; set; }
     public MaterialBase Material { get; set; }
     public int ID { get; }
+    public AABB Box {get; set;}
 
     public Sphere() : this(Vector3.Zero, 1, new PhongMat()) { }
-
     public Sphere(Vector3 center, float radius) : this(center, radius, new PhongMat()) { }
-
     public Sphere(Vector3 center, float radius, MaterialBase material) {
         ID = GetHashCode();
         Center = center;
         Radius = radius;
         Material = material;
+        Vector3 boxRange = new (radius);
+        Box = new AABB(Center - boxRange, Center + boxRange);
     }
-
     public bool Hit(Ray ray) {
         Vector3 oc = ray.Origin - Center;
         float a = ray.Direction.LengthSquared();
