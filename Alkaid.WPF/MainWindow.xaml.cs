@@ -51,8 +51,8 @@ public partial class MainWindow : Window {
             LookAt = new Vector3(0, 0, 0),
             DefocusAngle = 0.0f,
             FocusDistance = 20f,
-            SampleNum = 50,
-            ImageWidth = 800
+            SampleNum = 100,
+            ImageWidth = 400
         };
         MainCam = new Camera(option);
 
@@ -98,13 +98,14 @@ public partial class MainWindow : Window {
         MatLambertian matLabertian2 = new(Color.Blue);
         MatLambertian matLabertian3 = new(Color.Red);
         Sphere sphere1 = new Sphere(new(1, 0, -1), 0.5f, matLabertian1);
-        Sphere sphere2 = new Sphere(new(0, 0, -1), 0.5f, matLabertian2);
+        Sphere sphere2 = new Sphere(new(0, 0, -1), new(0, 0.5f, -1), 0.5f, matLabertian2);
+        //Sphere sphere2 = new Sphere(new(0, 0, -1), 0.5f, matLabertian2);
         Sphere sphere3 = new Sphere(new(-1, 0, -1), 0.5f, matLabertian3);
         Sphere groundSphere = new(center: new(0, -100.5f, -1), 100.0f, matGreen); // ground ball
         scene.AddItem(groundSphere);
-        scene.AddItem(sphere1);
+        //scene.AddItem(sphere1);
         scene.AddItem(sphere2);
-        scene.AddItem(sphere3);
+        //scene.AddItem(sphere3);
         return scene;
     }
     private Scene BuildSceneForPhongRenderer() {

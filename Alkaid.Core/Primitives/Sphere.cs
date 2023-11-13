@@ -10,14 +10,22 @@ public class Sphere : IHitable {
     public MaterialBase Material { get; set; }
     public int ID { get; }
     public AABB Box {get; set;}
-
+    private Vector3 center_vec;
+    private bool is_moving;
     public Sphere() : this(Vector3.Zero, 1, new PhongMat()) { }
-    public Sphere(Vector3 center, float radius) : this(center, radius, new PhongMat()) { }
+
+    // moving sphere
+    public Sphere(Vector3 center0, Vector3 center1, float radius, MaterialBase material)
+        : this(center0, radius, material) {
+        center_vec = center1 - center0;
+        is_moving = true;
+    }
     public Sphere(Vector3 center, float radius, MaterialBase material) {
         ID = GetHashCode();
         Center = center;
         Radius = radius;
         Material = material;
+        is_moving = false;
         Vector3 boxRange = new (radius);
         Box = new AABB(Center - boxRange, Center + boxRange);
     }
@@ -30,9 +38,12 @@ public class Sphere : IHitable {
 
         return discriminant >= 0;
     }
-
+    private Vector3 GetCenter(float time) {
+        return Center + time * center_vec;
+    }
     public bool Hit(Ray ray, Interval interval, ref HitRecord record) {
-        Vector3 oc = ray.Origin - Center;
+        Vector3 center = is_moving ? GetCenter(ray.Time) : Center;
+        Vector3 oc = ray.Origin - center;
         float a = ray.Direction.LengthSquared();
         float halfB = Dot(oc, ray.Direction);
         float c = oc.LengthSquared() - Radius * Radius;
@@ -47,10 +58,9 @@ public class Sphere : IHitable {
             if (!interval.Surrounds(root))
                 return false;
         }
-
         record.t = root;
         record.Point = ray.At(record.t);
-        Vector3 outwardNormal = (record.Point - Center) / Radius;
+        Vector3 outwardNormal = (record.Point - center) / Radius;
         record.SetFaceNormal(ray, outwardNormal);
 
         record.Material = Material;

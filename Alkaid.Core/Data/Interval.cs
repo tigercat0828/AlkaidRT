@@ -19,7 +19,7 @@ public class Interval {
         max = MathRT.Max(a.max, b.max);
     }
     public bool Surrounds(float x) => x > min && x < max;
-    public bool Contains(float x) => x >= min && x <= max;
+    public bool Contains(float x) => min <= x && x <= max;
     public float Size => max - min;
     public Interval Expand(float delta) {
         float padding = delta / 2;

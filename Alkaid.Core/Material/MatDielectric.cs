@@ -31,7 +31,7 @@ public class MatDielectric : MaterialBase {
             direction = Refract(unitDirection, record.Normal, refractionRatio);
         }
 
-        scattered = new Ray(record.Point, direction);
+        scattered = new Ray(record.Point, direction, ray.Time);
         return true;
     }
     private static float Reflectance(float cosine, float refidx) {

@@ -15,7 +15,7 @@ namespace Alkaid.Core.Material {
             Vector3 scatterDirection = record.Normal + random.UnitVector();
             if (NearZero(scatterDirection))
                 scatterDirection = record.Normal;
-            scattered = new Ray(record.Point, scatterDirection);
+            scattered = new Ray(record.Point, scatterDirection, ray.Time);
             attenuation = albedo;
 
             return true;

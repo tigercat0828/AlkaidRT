@@ -19,7 +19,7 @@ public class MatMetal : MaterialBase {
 
     public override bool Scatter(Ray ray, HitRecord record, ref Color attenuation, ref Ray scattered) {
         Vector3 reflected = Reflect(Normalize(ray.Direction), record.Normal);
-        scattered = new Ray(record.Point, reflected + fuzz * RandomUnitVector());
+        scattered = new Ray(record.Point, reflected + fuzz * RandomUnitVector(), ray.Time);
         attenuation = albedo;
         return (Dot(scattered.Direction, record.Normal)) > 0;
     }

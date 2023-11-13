@@ -93,8 +93,8 @@ public class Camera {
         }
         Vector3 rayOrigin = DefocusAngle <= 0 ? m_Center : GetRayFromDisk();
         Vector3 rayDirection = pixelCenter - rayOrigin;
-
-        return new Ray(rayOrigin, rayDirection);
+        float rayTime = MathRT.RandomSingle();
+        return new Ray(rayOrigin, rayDirection, rayTime);
     }
     public void Initialize() {
         ImageHeight = (int)(ImageWidth / AspectRatio);
