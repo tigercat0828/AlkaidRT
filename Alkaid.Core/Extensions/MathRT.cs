@@ -35,9 +35,9 @@ namespace Alkaid.Core.Extensions {
             }
         }
         public static Color RandomColor() {
-            float x = random.NextSingle() * 2.0f;
-            float y = random.NextSingle() * 2.0f;
-            float z = random.NextSingle() * 2.0f;
+            float x = random.NextSingle();
+            float y = random.NextSingle();
+            float z = random.NextSingle();
             return new Color(x, y, z);
         }
         public static float Min(float a, float b) {

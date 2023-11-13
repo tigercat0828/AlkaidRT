@@ -37,9 +37,9 @@ public partial class MainWindow : Window {
     }
     private void RenderScene() {
         //world = BuildSceneMetal();
-        //world = BuildSceneLambertian();
+        world = BuildSceneLambertian();
         //world = BuildSceneGlassBall();
-        world = BuildComplexScene();
+        //world = BuildComplexScene();
 
         CamOption option = new() {
             AspectRatio = 16 / 9f,
@@ -61,6 +61,7 @@ public partial class MainWindow : Window {
 
         MainCam.Initialize();
         output = MainCam.Render(world);
+        output.SaveFile("output.ppm");
     }
     private Scene BuildSceneMetal() {
         Scene scene = new();
