@@ -10,22 +10,22 @@ public class Sphere : IHitable {
     public MaterialBase Material { get; set; }
     public int ID { get; }
     public AABB Box {get; set;}
-    private Vector3 center_vec;
-    private bool is_moving;
+    private Vector3 MovingDirection;
+    private bool isMoving;
     public Sphere() : this(Vector3.Zero, 1, new PhongMat()) { }
 
     // moving sphere
     public Sphere(Vector3 center0, Vector3 center1, float radius, MaterialBase material)
         : this(center0, radius, material) {
-        center_vec = center1 - center0;
-        is_moving = true;
+        MovingDirection = center1 - center0;
+        isMoving = true;
     }
     public Sphere(Vector3 center, float radius, MaterialBase material) {
         ID = GetHashCode();
         Center = center;
         Radius = radius;
         Material = material;
-        is_moving = false;
+        isMoving = false;
         Vector3 boxRange = new (radius);
         Box = new AABB(Center - boxRange, Center + boxRange);
     }
@@ -38,11 +38,11 @@ public class Sphere : IHitable {
 
         return discriminant >= 0;
     }
-    private Vector3 GetCenter(float time) {
-        return Center + time * center_vec;
+    private Vector3 GetPosition(float time) {
+        return Center + time * MovingDirection;
     }
     public bool Hit(Ray ray, Interval interval, ref HitRecord record) {
-        Vector3 center = is_moving ? GetCenter(ray.Time) : Center;
+        Vector3 center = isMoving ? GetPosition(ray.Time) : Center;
         Vector3 oc = ray.Origin - center;
         float a = ray.Direction.LengthSquared();
         float halfB = Dot(oc, ray.Direction);

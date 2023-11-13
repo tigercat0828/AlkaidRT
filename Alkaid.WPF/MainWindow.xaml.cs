@@ -43,12 +43,12 @@ public partial class MainWindow : Window {
 
         CamOption option = new() {
             AspectRatio = 16 / 9f,
-            //hFov = 90,
-            //LookFrom = new Vector3(0, 0, 1),
-            //LookAt = new Vector3(0, 0, -1f),
-            hFov = 40,
-            LookFrom = new Vector3(13, 2, 3),
-            LookAt = new Vector3(0, 0, 0),
+            hFov = 90,
+            LookFrom = new Vector3(0, 0, 1),
+            LookAt = new Vector3(0, 0, -1f),
+            //hFov = 40,
+            //LookFrom = new Vector3(13, 2, 3),
+            //LookAt = new Vector3(0, 0, 0),
             DefocusAngle = 0.0f,
             FocusDistance = 20f,
             SampleNum = 100,
