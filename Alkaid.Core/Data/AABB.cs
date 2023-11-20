@@ -25,7 +25,13 @@ namespace Alkaid.Core.Data {
             Yintv = new Interval(box1.Yintv, box2.Yintv);
             Zintv = new Interval(box1.Zintv, box2.Zintv);
         }
-
+        public AABB Padding() {
+            float delta = 0.0001f;
+            Interval newX = (Xintv.Size >= delta) ? Xintv : Xintv.Expand(delta);
+            Interval newY = (Yintv.Size >= delta) ? Yintv : Yintv.Expand(delta);
+            Interval newZ = (Zintv.Size >= delta) ? Zintv : Zintv.Expand(delta);
+            return new AABB(newX, newY, newY);
+        }
         public Interval Axis(int n) {
             if (n == 1) return Yintv;
             if (n == 2) return Zintv;
@@ -44,7 +50,7 @@ namespace Alkaid.Core.Data {
             if (invD < 0) (t0, t1) = (t1, t0);
 
             rayIntv.min = Max(rayIntv.min, t0);
-            rayIntv.max = Max(rayIntv.max, t1);
+            rayIntv.max = Min(rayIntv.max, t1);
 
             if (rayIntv.max <= rayIntv.min) return false;
 
@@ -58,7 +64,7 @@ namespace Alkaid.Core.Data {
             if (invD < 0) (t0, t1) = (t1, t0);
 
             rayIntv.min = Max(rayIntv.min, t0);
-            rayIntv.max = Max(rayIntv.max, t1);
+            rayIntv.max = Min(rayIntv.max, t1);
 
             if (rayIntv.max <= rayIntv.min) return false;
 
@@ -72,7 +78,7 @@ namespace Alkaid.Core.Data {
             if (invD < 0) (t0, t1) = (t1, t0);
 
             rayIntv.min = Max(rayIntv.min, t0);
-            rayIntv.max = Max(rayIntv.max, t1);
+            rayIntv.max = Min(rayIntv.max, t1);
 
             if (rayIntv.max <= rayIntv.min) return false;
 

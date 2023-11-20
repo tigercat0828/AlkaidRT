@@ -23,6 +23,6 @@ public class Interval {
     public float Size => max - min;
     public Interval Expand(float delta) {
         float padding = delta / 2;
-        return new Interval(min -padding, max + padding);
+        return new Interval(min - padding, max + padding);
     }
 }

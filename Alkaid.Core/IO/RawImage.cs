@@ -1,4 +1,6 @@
-﻿namespace Alkaid.Core.IO;
+﻿using Alkaid.Core.Data;
+
+namespace Alkaid.Core.IO;
 public class RawImage {
     const int B = 0, G = 8, R = 16, A = 24;
     public int Width { get; private set; }
@@ -34,7 +36,7 @@ public class RawImage {
         Pixels[index] = pixel;
     }
 
-    public void SetPixel(int x, int y, Data.Color color) {
+    public void SetPixel(int x, int y, Color color) {
         uint pixelValue = (uint)color.R << R | (uint)color.G << G | (uint)color.B << B | 0xFF000000;
         SetPixel(x, y, pixelValue);
     }

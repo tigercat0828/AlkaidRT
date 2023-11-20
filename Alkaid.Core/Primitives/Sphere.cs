@@ -15,10 +15,17 @@ public class Sphere : IHitable {
     public Sphere() : this(Vector3.Zero, 1, new PhongMat()) { }
 
     // moving sphere
-    public Sphere(Vector3 center0, Vector3 center1, float radius, MaterialBase material)
-        : this(center0, radius, material) {
-        MovingDirection = center1 - center0;
+    public Sphere(Vector3 center1, Vector3 center2, float radius, MaterialBase material)
+        : this(center1, radius, material) {
+        
+        MovingDirection = center2 - center1;
         isMoving = true;
+
+        Vector3 boxRange = new(radius);
+        AABB box1 = new(center1 - boxRange, center1 + boxRange);
+        AABB box2 = new(center2 - boxRange, center2 + boxRange);
+        Box = new AABB(box1, box2);
+
     }
     public Sphere(Vector3 center, float radius, MaterialBase material) {
         ID = GetHashCode();
