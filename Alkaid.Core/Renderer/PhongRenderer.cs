@@ -12,7 +12,7 @@ public class PhongRenderer : RendererBase {
             return Color.None;
         depth--;
         HitRecord record = new();
-        if (scene.HitAny(ray, new Interval(0, float.MaxValue), ref record)) {
+        if (scene.Hit(ray, new Interval(0, float.MaxValue), ref record)) {
 
             Vector3 normal = Normalize(record.Normal);
             Vector3 pixelPos = record.Point;

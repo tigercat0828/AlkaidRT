@@ -7,7 +7,10 @@ namespace Alkaid.Core.Material {
     public class MatLambertian : MaterialBase {
         Random random = new();
         Color albedo;
-
+        public MatLambertian()
+        {
+            albedo = Color.White;
+        }
         public MatLambertian(Color albedo) {
             this.albedo = albedo;
         }

@@ -13,7 +13,7 @@ public class RtiowkRenderer : RendererBase {
         }
         HitRecord record = new();
         // 0.0001f -> fix acne
-        if (scene.HitAny(ray, new Interval(0.0001f, float.MaxValue), ref record)) {
+        if (scene.Hit(ray, new Interval(0.0001f, float.MaxValue), ref record)) {
             Ray scattered = new Ray();
             Color attenuation = new Color();
             if (record.Material.Scatter(ray, record, ref attenuation, ref scattered)) {
@@ -25,7 +25,6 @@ public class RtiowkRenderer : RendererBase {
     }
 
     Color bottom = new Color(0.5f, 0.7f, 1.0f);
-    //Color bottom = new Color(1.0f, 0.7f, 0.3f);
     private Color SkyColor(Ray ray) {
 
         Vector3 unitDirection = Normalize(ray.Direction);

@@ -2,6 +2,8 @@
 using static System.MathF;
 using static System.Numerics.Vector3;
 using Alkaid.Core.Data;
+using Alkaid.Core.Primitives;
+using Microsoft.VisualBasic;
 namespace Alkaid.Core.Extensions {
     public static class MathRT {
         private static readonly Random random = new();
@@ -20,9 +22,8 @@ namespace Alkaid.Core.Extensions {
             float t = random.NextSingle();
             return t * (max - min) + min;
         }
-        public static float RandomSingle() {
-            return random.NextSingle();
-        }
+        public static float RandomSingle() => random.NextSingle();
+        public static int RandomNext(int min, int max) => random.Next(min, max);
         public static Vector3 RandomUnitVector() {
             while (true) {
                 float x = random.NextSingle() * 2.0f - 1.0f;
@@ -47,6 +48,10 @@ namespace Alkaid.Core.Extensions {
         public static float Max(float a, float b) {
             if(a > b) return a;
             return b;
+        }
+        public static int BoxCompare(IHitable a, IHitable b, int axis) {
+            if (a.Box.Axis(axis).min < b.Box.Axis(axis).min) return -1;
+            return 1;
         }
     }
 }

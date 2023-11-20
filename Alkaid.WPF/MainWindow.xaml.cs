@@ -11,7 +11,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using Color = Alkaid.Core.Data.Color;
 using static Alkaid.Core.Extensions.MathRT;
-using Microsoft.VisualBasic.FileIO;
+using System.Runtime.InteropServices;
+using System;
+using System.Diagnostics;
 
 namespace Alkaid.WPF;
 /// <summary>
@@ -19,14 +21,23 @@ namespace Alkaid.WPF;
 /// </summary>
 public partial class MainWindow : Window {
 
+    [DllImport("Kernel32")]
+    public static extern void AllocConsole();
+
+    [DllImport("Kernel32")]
+    public static extern void FreeConsole();
+    public MainWindow() {
+        InitializeComponent();
+        AllocConsole();
+        Console.WriteLine("Console Launch !! :)");
+    }
+
     RawImage output;
     Camera MainCam;
     Scene world;
 
     Bitmap bitmap;
-    public MainWindow() {
-        InitializeComponent();
-    }
+   
     private async void RenderBtn_Click(object sender, RoutedEventArgs e) {
         c_RenderBtn.IsEnabled = false;
         await Task.Run(() => RenderScene());
@@ -60,8 +71,15 @@ public partial class MainWindow : Window {
         MainCam.MaxDepth = 50;
 
         MainCam.Initialize();
+
+        Stopwatch timer = new();
+        timer.Start();
         output = MainCam.Render(world);
+        timer.Stop();
+        TimeSpan time = timer.Elapsed;
+        Console.WriteLine(time);
         output.SaveFile("output.ppm");
+        
     }
     private Scene BuildSceneMetal() {
         Scene scene = new();
@@ -103,8 +121,9 @@ public partial class MainWindow : Window {
         Sphere sphere3 = new Sphere(new(-1, 0, -1), 0.5f, matLabertian3);
         Sphere groundSphere = new(center: new(0, -100.5f, -1), 100.0f, matGreen); // ground ball
         scene.AddItem(groundSphere);
-        //scene.AddItem(sphere1);
-        scene.AddItem(sphere2);
+        scene.AddItem(sphere1);
+
+        //scene.AddItem(sphere2);
         //scene.AddItem(sphere3);
         return scene;
     }
